@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Security.AccessControl;
+using NStack;
 using Terminal.Gui;
 
 namespace RPG;
@@ -13,9 +14,9 @@ public partial class Menu
         username = Username;
     }
 
-    void OnButtonClicked(object s, CancelEventArgs e)
+    void OnButtonClicked()
     {
-        string[] options = { "Hello", "???", "Ass", "Joe", "Mumma", "Maciek Pierdzioch", username };
+        ustring[] options = { "Hello", "???", "Ass", "Joe", "Mumma", "Maciek Pierdzioch", username };
 
         int o = MessageBox.Query("Dupa", $"Hello {username}!", options);
 

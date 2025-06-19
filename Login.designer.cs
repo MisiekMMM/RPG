@@ -44,8 +44,8 @@ public partial class Login : Window
         txtLogin.X = Pos.Center();
         txtPassword.X = Pos.Center();
 
-        txtLogin.TextAlignment = Alignment.Center;
-        txtPassword.TextAlignment = Alignment.Center;
+        txtLogin.TextAlignment = TextAlignment.Centered;
+        txtPassword.TextAlignment = TextAlignment.Centered;
 
         loginButton.Text = "Login";
         loginButton.X = Pos.Percent(30);
@@ -53,8 +53,8 @@ public partial class Login : Window
         registerButton.Text = "Register";
         registerButton.X = Pos.Percent(62);
 
-        loginButton.Accepting += OnButtonClicked;
-        registerButton.Accepting += OnRegisterClicked;
+        loginButton.Clicked += OnButtonClicked;
+        registerButton.Clicked += OnRegisterClicked;
 
         Add(txtLogin, txtPassword, loginButton, registerButton, label1, label2, imageLabel);
 

@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Security.AccessControl;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Terminal.Gui;
 
 namespace RPG;
@@ -12,10 +11,10 @@ public partial class Login
     {
         Init();
     }
-    void OnRegisterClicked(object s, CancelEventArgs e)
+    void OnRegisterClicked()
     {
-        string login = txtLogin.Text;
-        string password = txtPassword.Text;
+        string login = txtLogin.Text.ToString()!;
+        string password = txtPassword.Text.ToString()!;
         if (!string.IsNullOrWhiteSpace(login.ToString()) && !string.IsNullOrWhiteSpace(password.ToString()))
         {
             if (!GetUserBase(Path.Combine(Environment.CurrentDirectory, @"users.txt"), Path.Combine(Environment.CurrentDirectory, @"passwords.txt")).ContainsKey(login.ToString()!))
@@ -37,10 +36,10 @@ public partial class Login
             MessageBox.Query("Nie zarejestrowano!", "Nie wpisano loginu lub hasła.", "Ok");
         }
     }
-    void OnButtonClicked(object s, CancelEventArgs e)
+    void OnButtonClicked()
     {
-        string login = txtLogin.Text;
-        string password = txtPassword.Text;
+        string login = txtLogin.Text.ToString()!;
+        string password = txtPassword.Text.ToString()!;
 
         Dictionary<string, string> database = GetUserBase(Path.Combine(Environment.CurrentDirectory, @"users.txt"), Path.Combine(Environment.CurrentDirectory, @"passwords.txt"));
 

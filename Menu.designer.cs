@@ -8,7 +8,10 @@ public partial class Menu : Window
     Button button = new();
     private void Init()
     {
-        frameView.BorderStyle = LineStyle.Double;
+        frameView.Border = new()
+        {
+            BorderStyle = BorderStyle.Double
+        };
         frameView.X = 1;
         frameView.Y = 1;
         frameView.Width = 22;
@@ -21,16 +24,12 @@ public partial class Menu : Window
             Y = 0,
             Width = 20,
             Height = 10,  // or specify number of lines
-            TextAlignment = Alignment.Start,
+            TextAlignment = TextAlignment.Left,
         });
 
-        BorderStyle = LineStyle.Rounded;
-        Border.Thickness = new()
+        Border = new()
         {
-            Left = 1,
-            Right = 1,
-            Top = 1,
-            Bottom = 1
+            BorderStyle = BorderStyle.Double,
         };
         Width = Dim.Fill();
         Height = Dim.Fill();
@@ -39,7 +38,7 @@ public partial class Menu : Window
         button.X = Pos.Center();
         button.Y = Pos.Center();
 
-        button.Accepting += OnButtonClicked;
+        button.Clicked += OnButtonClicked;
 
         Add(button, frameView);
     }
