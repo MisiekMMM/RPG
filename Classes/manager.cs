@@ -5,6 +5,8 @@ namespace RPG;
 public static class Manager
 {
     public static string login = "";
+    public static Label? flavorLabel;
+    public static Hero? hero;
 
     public static ColorScheme ColorScheme = new()
     {
