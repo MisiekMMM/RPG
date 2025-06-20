@@ -6,23 +6,21 @@ namespace RPG;
 
 public partial class Menu
 {
-    string username;
-    public Menu(string Username)
+
+    public Menu()
     {
         Init();
-        username = Username;
     }
 
     void OnButtonClicked(object s, CancelEventArgs e)
     {
-        string[] options = { "Hello", "???", "Ass", "Joe", "Mumma", "Maciek Pierdzioch", username };
+        OpenDialog openDialog = new();
 
-        int o = MessageBox.Query("Dupa", $"Hello {username}!", options);
+        Application.Run(openDialog);
 
-        if (o != -1)
-            MessageBox.Query(options[o], options[o], options[o]);
-        else
-            MessageBox.Query("Escape", "Escape", "Escape");
+        IReadOnlyList<string> paths = openDialog.FilePaths;
+
+        MessageBox.Query("Dupa", paths[0], "Ok");
     }
 }
 

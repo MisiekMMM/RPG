@@ -4,44 +4,52 @@ namespace RPG;
 
 public partial class Menu : Window
 {
-    FrameView frameView = new();
-    Button button = new();
+    Label label1 = new();
+    TextField nameField = new();
+    Button submitButton = new();
+    Button losujButton = new();
+    Label statsLabel = new();
+    Label label2 = new();
+    RadioGroup rgKlasy = new();
+
     private void Init()
     {
-        frameView.BorderStyle = LineStyle.Double;
-        frameView.X = 1;
-        frameView.Y = 1;
-        frameView.Width = 22;
-        frameView.Height = 10;
+        ColorScheme = Manager.ColorScheme;
 
-        frameView.Add(new Label()
-        {
-            Text = "This is a long label that should wrap when it reaches the edge.",
-            X = 0,
-            Y = 0,
-            Width = 20,
-            Height = 10,  // or specify number of lines
-            TextAlignment = Alignment.Start,
-        });
+        label1.X = 0;
+        label1.Y = 0;
+        label1.Text = "Podaj imię dla swojej postaci:";
 
-        BorderStyle = LineStyle.Rounded;
-        Border.Thickness = new()
-        {
-            Left = 1,
-            Right = 1,
-            Top = 1,
-            Bottom = 1
-        };
-        Width = Dim.Fill();
-        Height = Dim.Fill();
+        nameField.X = 0;
+        nameField.Y = Pos.Bottom(label1);
+        nameField.Height = 1;
+        nameField.Width = Dim.Percent(30);
 
-        button.Text = "Click Me!";
-        button.X = Pos.Center();
-        button.Y = Pos.Center();
+        label2.X = 0;
+        label2.Y = Pos.Bottom(nameField) + 3;
+        label2.Text = "Wybierz klasę:";
 
-        button.Accepting += OnButtonClicked;
+        rgKlasy.X = 0;
+        rgKlasy.Y = Pos.Bottom(label2);
+        rgKlasy.Title = "Wybierz klasę:";
+        rgKlasy.RadioLabels = ["Wojownik", "Mag", "Mnich"];
+        rgKlasy.SelectedItem = 0;
 
-        Add(button, frameView);
+        statsLabel.X = 0;
+        statsLabel.Y = Pos.Bottom(rgKlasy) + 3;
+        statsLabel.Text = "Twoje statystyki dla klasy x:";
+        statsLabel.Visible = false;
+
+        losujButton.X = 0;
+        losujButton.Y = Pos.Bottom(statsLabel);
+        losujButton.Text = "Losój statystyki";
+
+        submitButton.Text = "Gotowe";
+        submitButton.X = 0;
+        submitButton.Y = Pos.Bottom(losujButton);
+        submitButton.Accepting += OnButtonClicked;
+
+        Add(label1, nameField, label2, rgKlasy, statsLabel, losujButton, submitButton);
     }
 }
 

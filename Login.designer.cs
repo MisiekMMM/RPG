@@ -15,11 +15,7 @@ public partial class Login : Window
 
     void Init()
     {
-        ColorScheme = new ColorScheme
-        {
-            Normal = new Attribute(Color.White, Color.Black),
-            Focus = new Attribute(Color.Black, Color.White),
-        };
+        ColorScheme = Manager.ColorScheme;
 
 
         Width = Dim.Fill();

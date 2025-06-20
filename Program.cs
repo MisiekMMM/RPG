@@ -7,12 +7,17 @@ public static class Program
 {
     public static void Main()
     {
-        Console.InputEncoding = Encoding.Unicode;
-        Console.OutputEncoding = Encoding.Unicode;
+        Console.InputEncoding = Encoding.UTF8;
+        Console.OutputEncoding = Encoding.UTF8;
+
+        Console.Clear();
+        Console.WriteLine("El kloc");
+        Console.ReadKey();
 
         Application.Init();
+
         Application.Run(new Login());
-        Application.Run(new Menu(Manager.login));
+        Application.Run(new Menu());
     }
 
 }
