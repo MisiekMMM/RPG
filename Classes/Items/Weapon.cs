@@ -4,7 +4,7 @@ namespace RPG;
 
 public class Weapon : Item
 {
-    public int sila = 0;
+    public int strength = 0;
     public Weapon(string name) : base(name)
     {
 
@@ -12,7 +12,7 @@ public class Weapon : Item
 
     public override Task Uzyj()
     {
-        Manager.hero!.weapon = this;
+        Manager.hero!.ChangeWeapon(this);
 
         return Task.CompletedTask;
     }

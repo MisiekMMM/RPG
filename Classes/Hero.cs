@@ -20,6 +20,8 @@ public class Hero
     public Armor? armor = null;
     public Weapon? weapon = null;
     public Item[] inventory = new Item[8];
+    public string klasa = "dupa";
+    public string rasa = "kupa";
 
     public void AddHealth(int health)
     {
@@ -37,5 +39,13 @@ public class Hero
         this.armor = armor;
 
         defence += this.armor.defence;
+    }
+    public void ChangeWeapon(Weapon weapon)
+    {
+        strength -= this.weapon!.strength;
+
+        this.weapon = weapon;
+
+        strength += this.weapon.strength;
     }
 }

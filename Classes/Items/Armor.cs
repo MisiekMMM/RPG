@@ -12,7 +12,7 @@ public class Armor : Item
 
     public override Task Uzyj()
     {
-        Manager.hero!.armor = this;
+        Manager.hero!.ChangeArmor(this);
 
         return Task.CompletedTask;
     }

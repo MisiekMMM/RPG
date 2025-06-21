@@ -37,6 +37,8 @@ public partial class HeroCreator : Window
         cmbRasy.Height = 4;
         cmbRasy.SelectedItem = 0;
         cmbRasy.ReadOnly = true;
+        cmbRasy.SelectedItemChanged += OnRasaChanged;
+        cmbRasy.Text = "--Wybierz rasę--";
 
         label2.X = 0;
         label2.Y = Pos.Bottom(cmbRasy) + 3;
@@ -49,11 +51,15 @@ public partial class HeroCreator : Window
         cmbKlasy.Height = 4;
         cmbKlasy.SelectedItem = 0;
         cmbKlasy.ReadOnly = true;
+        cmbKlasy.SelectedItemChanged += OnKlasaChanged;
+        cmbKlasy.Text = "--Wybierz klasę--";
 
         statsLabel.X = 0;
         statsLabel.Y = Pos.Bottom(cmbKlasy) + 3;
-        statsLabel.Text = "Twoje statystyki dla klasy x:";
+        statsLabel.Text = "Twoje statystyki dla klasy x:\n";
         statsLabel.Visible = false;
+        statsLabel.Width = Dim.Percent(50);
+        statsLabel.Height = 2;
 
         losujButton.X = 0;
         losujButton.Y = Pos.Bottom(statsLabel);
