@@ -2,26 +2,33 @@ namespace RPG;
 
 public class Hero
 {
+    public Dictionary<string, int> Stats = new(){
+        { "strength", 0},
+        {"fighting", 0},
+        {"shootingSkills",0 },
+        {"agility", 0},
+        {"speed", 0 },
+        {"condition", 0},
+        {"inteligence", 0},
+        {"wisdom", 0},
+        {"charisma", 0},
+        {"defence", 0},
+        {"magic",0 },
+        {"luck", 0},
+        { "willPower",0},
+    };
     public string name = "";
-    public int strength = 0;
-    public int agility = 0;
-    public int condition = 0;
-    public int inteligence = 0;
-    public int wisdom = 0;
-    public int charisma = 0;
-    public int mana;
-    public int defence = 0;
     public int health = 0;
     public int maxHealth = 0;
-    public int magic = 0;
     public int level = 0;
     public int exp = 0;
-    public int luck = 0;
     public Armor? armor = null;
     public Weapon? weapon = null;
     public Item[] inventory = new Item[8];
-    public string klasa = "dupa";
-    public string rasa = "kupa";
+    public string klasa = "";
+    public Race? rasa;
+    public int mana;
+    public int maxMana;
 
     public void AddHealth(int health)
     {
@@ -34,18 +41,27 @@ public class Hero
     }
     public void ChangeArmor(Armor armor)
     {
-        defence -= this.armor!.defence;
+        Stats["defence"] -= this.armor!.defence;
 
         this.armor = armor;
 
-        defence += this.armor.defence;
+        Stats["defence"] += this.armor.defence;
     }
     public void ChangeWeapon(Weapon weapon)
     {
-        strength -= this.weapon!.strength;
+        Stats["strength"] -= this.weapon!.strength;
 
         this.weapon = weapon;
 
-        strength += this.weapon.strength;
+        Stats["strength"] += this.weapon.strength;
+    }
+    public void ChangeMana(int mana)
+    {
+        this.mana += mana;
+
+        if (this.mana > maxMana)
+        {
+            this.mana = maxMana;
+        }
     }
 }
