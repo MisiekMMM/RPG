@@ -1,0 +1,2 @@
+D:\Projekty\C#\RPG\publish\RPG.pdb
+D:\Projekty\C#\RPG\publish\RPG.exe

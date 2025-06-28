@@ -20,7 +20,7 @@ public class Hero
     public string name = "";
     public int health = 0;
     public int maxHealth = 0;
-    public int level = 0;
+    public int level = 1;
     public int exp = 0;
     public Armor? armor = null;
     public Weapon? weapon = null;

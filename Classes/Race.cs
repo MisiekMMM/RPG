@@ -26,9 +26,9 @@ public class Race
     public int maxMana;
 
     public Race(string nazwa, int strength, int fighting, int shootingSkills,
-     int agility, int speed, int condition, int inteligence, int wisdom,
-     int charisma, int maxMana, int maxHealth
-     )
+    int agility, int speed, int condition, int inteligence, int wisdom,
+    int charisma, int maxMana, int maxHealth
+    )
     {
         this.name = nazwa;
         this.mana = maxMana;

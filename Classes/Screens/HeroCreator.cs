@@ -8,6 +8,7 @@ public partial class HeroCreator
 {
     Random rnd = new();
     int kloc = 0;
+    bool areStats = false;
     public HeroCreator()
     {
         Manager.hero = new();
@@ -21,14 +22,26 @@ public partial class HeroCreator
     /// </summary>
     void OnButtonClicked(object s, CancelEventArgs e)
     {
-
+        if (areStats)
+        {
+            Manager.Save($"save{Manager.saveId}.sv");
+            MessageBox.Query("!!!", "Zapisano", "Wyjdź", "Wyjdź");
+            Application.RequestStop();
+        }
+        else
+        {
+            MessageBox.Query("Błąd", "Najpierw wylosuj statystyki!", "Ok");
+        }
     }
     void OnLosujClicked(object s, CancelEventArgs e)
     {
         if (kloc >= 2)
         {
+            areStats = true;
+
             Manager.hero = new();
-            Manager.hero.rasa = Manager.races[cmbRasy.Text];
+            Manager.hero.name = nameField.Text;
+            Manager.hero.rasa = Manager.races[cmbRasy2.Text];
 
             Manager.hero.health = Manager.hero.rasa.health;
             Manager.hero.maxHealth = Manager.hero.rasa.maxHealth;
@@ -39,12 +52,12 @@ public partial class HeroCreator
 
             foreach (var key in Manager.hero.Stats)
             {
-                Manager.hero.Stats[key.Key] = rnd.Next(1, 100) + Manager.hero.rasa.Stats[key.Key];
+                Manager.hero.Stats[key.Key] = rnd.Next(20, 50) + Manager.hero.rasa.Stats[key.Key];
                 statString += $"{key.Key}: {Manager.hero.Stats[key.Key]},";
             }
 
             statsLabel.Visible = true;
-            statsLabel.Text = $"Twoje statystyki dla {Manager.hero!.rasa} {Manager.hero!.klasa}:\n{statString}";
+            statsLabel.Text = $"Twoje statystyki dla {Manager.hero!.rasa.name} {Manager.hero!.klasa}:\n{statString}";
         }
 
     }

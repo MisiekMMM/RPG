@@ -10,50 +10,44 @@ public partial class HeroCreator : Window
     Button losujButton = new();
     Label statsLabel = new();
     Label label2 = new();
-    ComboBox cmbRasy = new();
     ComboBox cmbKlasy = new();
     ComboBox cmbRasy2 = new();
     Label label3 = new();
-    Button btnSus = new();
     private void Init()
     {
         ColorScheme = Manager.ColorScheme;
 
-        label1.X = 0;
+        label1.X = Pos.Center();
         label1.Y = 0;
         label1.Text = "Podaj imię dla swojej postaci:";
+        label1.TextAlignment = Alignment.Center;
 
-        nameField.X = 0;
+        nameField.X = Pos.Center();
         nameField.Y = Pos.Bottom(label1);
         nameField.Height = 1;
         nameField.Width = Dim.Percent(30);
+        nameField.TextAlignment = Alignment.Center;
 
-        label3.X = 0;
+        label3.X = Pos.Center();
         label3.Y = Pos.Bottom(nameField) + 3;
         label3.Text = "Wybierz rasę:";
+        label3.TextAlignment = Alignment.Center;
 
-        cmbRasy.X = 0;
-        cmbRasy.Y = Pos.Bottom(label3);
-        cmbRasy.SetSource<string>(new() { "Człowiek", "Elf", "Krasnolud" });
-        cmbRasy.Width = Dim.Percent(30);
-        cmbRasy.Height = 4;
-        cmbRasy.SelectedItem = 0;
-        cmbRasy.ReadOnly = true;
-        cmbRasy.SelectedItemChanged += OnRasaChanged;
-        cmbRasy.Text = "--Wybierz rasę--";
-
-        cmbRasy2.X = Pos.Right(cmbRasy);
-        cmbRasy2.Y = cmbRasy.Y;
+        cmbRasy2.X = Pos.Center();
+        cmbRasy2.Y = Pos.Bottom(label3);
         cmbRasy2.SetSource<string>(new() { "Człowiek", "Elf", "Krasnolud" });
+        cmbRasy2.ReadOnly = true;
         cmbRasy2.Width = Dim.Percent(30);
         cmbRasy2.Height = 4;
         cmbRasy2.SelectedItemChanged += OnRasaChanged;
+        cmbRasy2.TextAlignment = Alignment.Center;
 
-        label2.X = 0;
-        label2.Y = Pos.Bottom(cmbRasy) + 3;
+        label2.X = Pos.Center();
+        label2.Y = Pos.Bottom(cmbRasy2) + 3;
         label2.Text = "Wybierz klasę:";
+        label2.TextAlignment = Alignment.Center;
 
-        cmbKlasy.X = 0;
+        cmbKlasy.X = Pos.Center();
         cmbKlasy.Y = Pos.Bottom(label2);
         cmbKlasy.SetSource<string>(new() { "Wojownik", "Mag", "Mnich" });
         cmbKlasy.Width = Dim.Percent(30);
@@ -62,30 +56,27 @@ public partial class HeroCreator : Window
         cmbKlasy.ReadOnly = true;
         cmbKlasy.SelectedItemChanged += OnKlasaChanged;
         cmbKlasy.Text = "--Wybierz klasę--";
+        cmbKlasy.TextAlignment = Alignment.Center;
 
-        statsLabel.X = 0;
+        statsLabel.X = Pos.Center();
         statsLabel.Y = Pos.Bottom(cmbKlasy) + 3;
         statsLabel.Text = "Twoje statystyki dla klasy x:\n";
         statsLabel.Visible = false;
-        statsLabel.Width = Dim.Percent(50);
-        statsLabel.Height = 2;
+        statsLabel.Width = Dim.Percent(60);
+        statsLabel.Height = 4;
+        statsLabel.TextAlignment = Alignment.Center;
 
-        losujButton.X = 0;
+        losujButton.X = Pos.Center();
         losujButton.Y = Pos.Bottom(statsLabel);
         losujButton.Text = "Losój statystyki";
         losujButton.Accepting += OnLosujClicked;
 
-        btnSus.X = Pos.Right(losujButton);
-        btnSus.Y = losujButton.Y;
-        btnSus.Text = "Wciśnij tu aby losować";
-        btnSus.Accepting += OnLosujClicked;
-
         submitButton.Text = "Gotowe";
-        submitButton.X = 0;
+        submitButton.X = Pos.Center();
         submitButton.Y = Pos.Bottom(losujButton);
         submitButton.Accepting += OnButtonClicked;
 
-        Add(btnSus, label1, nameField, label3, cmbRasy, cmbRasy2, label2, cmbKlasy, statsLabel, losujButton, submitButton);
+        Add(label1, nameField, label3, cmbRasy2, label2, cmbKlasy, statsLabel, losujButton, submitButton);
     }
 }
 

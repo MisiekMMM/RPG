@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/misiekmm/Desktop/RPG/RPG/RPG.csproj": {}
+    "D:\\Projekty\\C#\\RPG\\RPG.csproj": {}
   },
   "projects": {
-    "/home/misiekmm/Desktop/RPG/RPG/RPG.csproj": {
+    "D:\\Projekty\\C#\\RPG\\RPG.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/misiekmm/Desktop/RPG/RPG/RPG.csproj",
+        "projectUniqueName": "D:\\Projekty\\C#\\RPG\\RPG.csproj",
         "projectName": "RPG",
-        "projectPath": "/home/misiekmm/Desktop/RPG/RPG/RPG.csproj",
-        "packagesPath": "/home/misiekmm/.nuget/packages/",
-        "outputPath": "/home/misiekmm/Desktop/RPG/RPG/obj/",
+        "projectPath": "D:\\Projekty\\C#\\RPG\\RPG.csproj",
+        "packagesPath": "C:\\Users\\Michal\\.nuget\\packages\\",
+        "outputPath": "D:\\Projekty\\C#\\RPG\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/misiekmm/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Michal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -65,7 +67,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

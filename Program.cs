@@ -17,7 +17,12 @@ public static class Program
         Application.Init();
 
         Application.Run(new Login());
-        Application.Run(new HeroCreator());
+        Application.Run(new Menu());
+
+        if (!File.Exists(Path.Combine(Environment.CurrentDirectory, @$"save{Manager.saveId}.sv")))
+        {
+            Application.Run(new HeroCreator());
+        }
     }
 
 }
