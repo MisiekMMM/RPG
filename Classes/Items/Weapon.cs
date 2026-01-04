@@ -10,10 +10,10 @@ public class Weapon : Item
 
     }
 
-    public override Task Uzyj()
+    public override void Uzyj()
     {
         Manager.hero!.ChangeWeapon(this);
 
-        return Task.CompletedTask;
+        return;
     }
 }

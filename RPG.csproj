@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LlmTornado" Version="3.8.39" />
     <PackageReference Include="Terminal.Gui" Version="2.0.0-alpha.*" />
   </ItemGroup>
 

@@ -1,3 +1,5 @@
+using System.Data;
+
 namespace RPG;
 
 public class Hero
@@ -22,6 +24,7 @@ public class Hero
     public int maxHealth = 0;
     public int level = 1;
     public int exp = 0;
+    public int[] levels = { 0, 0, 25, 30, 30, 35, 40, 40, 45, 50, 55, 60, 61 };
     public Armor? armor = null;
     public Weapon? weapon = null;
     public Item[] inventory = new Item[8];
@@ -29,6 +32,7 @@ public class Hero
     public Race? rasa;
     public int mana;
     public int maxMana;
+    public int money;
 
     public void AddHealth(int health)
     {
@@ -37,6 +41,16 @@ public class Hero
         if (this.health > maxHealth)
         {
             this.health = maxHealth;
+        }
+    }
+    public void AddEXP(int exp)
+    {
+        this.exp += exp;
+
+        if (exp >= levels[level + 1])
+        {
+            level++;
+            exp -= levels[level];
         }
     }
     public void ChangeArmor(Armor armor)

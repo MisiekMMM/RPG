@@ -34,30 +34,30 @@ public static class Utils
     }
     public static async Task WriteAsync(string text, int typeRate = 10)
     {
+        Manager.nextButton!.Visible = false;
+
         Manager.flavorLabel!.Text = "";
         foreach (char c in text)
         {
             Manager.flavorLabel!.Text += c;
             await Task.Delay(typeRate); // Waits 1 second without blocking the thread
-
         }
+        Manager.nextButton!.Visible = true;
+        await WaitForButtonClickAsync(Manager.nextButton!);
     }
-    private static void WaitForKeyPress(Action? onKeyPressed = null)
+    public static async Task WaitForButtonClickAsync(Button button)
     {
-        var keyHandler = new Window()
+        var tcs = new TaskCompletionSource<bool>();
+
+        EventHandler<CommandEventArgs> handler = null!;
+        handler = (object? sender, CommandEventArgs args) =>
         {
-            Width = Dim.Fill(),
-            Height = Dim.Fill(),
-            Visible = false // Invisible key catcher
+            button.Accepting -= handler; // poprawne zdarzenie: Accepted
+            tcs.SetResult(true);
         };
 
-        keyHandler.KeyDown += (object? s, Key key) =>
-        {
-            Application.RequestStop(); // stop the modal window
-            onKeyPressed?.Invoke();    // do something after key is pressed
-        };
-
-        Application.Run(keyHandler); // blocks until a key is pressed
+        button.Accepting += handler;
+        await tcs.Task;
     }
 
 }

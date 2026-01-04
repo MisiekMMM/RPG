@@ -370,3 +370,5 @@ D:\Projekty\C#\RPG\obj\Debug\net9.0\refint\RPG.dll
 D:\Projekty\C#\RPG\obj\Debug\net9.0\RPG.pdb
 D:\Projekty\C#\RPG\obj\Debug\net9.0\RPG.genruntimeconfig.cache
 D:\Projekty\C#\RPG\obj\Debug\net9.0\ref\RPG.dll
+D:\Projekty\C#\RPG\bin\Debug\net9.0\LlmTornado.dll
+D:\Projekty\C#\RPG\bin\Debug\net9.0\Newtonsoft.Json.dll
