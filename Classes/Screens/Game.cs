@@ -11,6 +11,7 @@ public partial class Game
         Init();
 
         Manager.flavorLabel = lblFlavor;
+        Manager.StoryLabel = lblStory;
         Manager.nextButton = nextButton;
 
         Update();
@@ -41,6 +42,8 @@ public partial class Game
     }
     async Task Start()
     {
+        await Utils.WriteAsync("TEst 123");
+        await Utils.WriteAsync("12345678901234567890");
         await Utils.WriteAsync(await AiManager.Generate("Mam na imię Michał. Zapamiętaj moje imię."));
         await Utils.WriteAsync(await AiManager.Generate("Jak mam na imię?"));
     }

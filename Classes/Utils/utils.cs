@@ -32,18 +32,43 @@ public static class Utils
         }
         return -1;
     }
-    public static async Task WriteAsync(string text, int typeRate = 10)
+    public static async Task GeneratingLoadingAsync()
     {
+        //⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
+        char[] loadingChars = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+        while (AiManager.isGenerating)
+        {
+            foreach (char i in loadingChars)
+            {
+                Manager.flavorLabel!.Text = i.ToString();
+                await Task.Delay(90);
+            }
+        }
+        Manager.flavorLabel!.Text = "Press [>>>] to continue";
+    }
+    public static async Task WriteAsync(string text, string restText = "", int typeRate = 10)
+    {
+        // 52x18 = 936
         Manager.nextButton!.Visible = false;
 
-        Manager.flavorLabel!.Text = "";
+        if (text.Length > 936)
+        {
+            restText = text[936..];
+            text = text[..936];
+        }
+
+        Manager.StoryLabel!.Text = "";
         foreach (char c in text)
         {
-            Manager.flavorLabel!.Text += c;
+            Manager.StoryLabel!.Text += c;
             await Task.Delay(typeRate); // Waits 1 second without blocking the thread
         }
         Manager.nextButton!.Visible = true;
         await WaitForButtonClickAsync(Manager.nextButton!);
+        if (restText != "")
+        {
+            await WriteAsync(restText, "", typeRate);
+        }
     }
     public static async Task WaitForButtonClickAsync(Button button)
     {

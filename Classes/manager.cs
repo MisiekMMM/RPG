@@ -9,6 +9,7 @@ public static class Manager
 {
     public static string login = "";
     public static Label? flavorLabel;
+    public static Label? StoryLabel;
     public static Button? nextButton;
     public static Hero? hero;
     public static int saveId = 0;

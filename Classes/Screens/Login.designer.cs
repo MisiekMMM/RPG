@@ -17,7 +17,6 @@ public partial class Login : Window
     {
         ColorScheme = Manager.ColorScheme;
 
-
         Width = Dim.Fill();
         Height = Dim.Fill();
         Title = "Login";

@@ -29,6 +29,8 @@ public partial class Game : Window
     Button item7 = new();
     Button item8 = new();
 
+    Label lblStory = new();
+
     Button nextButton = new();
     void Init()
     {
@@ -50,6 +52,15 @@ public partial class Game : Window
         MiddlePanel.SetBorderStyle(LineStyle.Rounded);
         MiddlePanel.X = Pos.Percent(20);
         MiddlePanel.Y = Pos.Percent(0);
+        MiddlePanel.Add(lblStory);
+
+        lblStory.X = Pos.Center();
+        lblStory.Y = Pos.Percent(10);
+        lblStory.Width = Dim.Percent(75);
+        lblStory.Height = Dim.Fill();
+        lblStory.Text = "Press [>>>] to continue with the story";
+        lblStory.TextAlignment = Alignment.Center;
+
 
         DownPanel.Width = Dim.Percent(60);
         DownPanel.Height = Dim.Percent(30);
@@ -86,7 +97,7 @@ public partial class Game : Window
         lblFlavor.Height = Dim.Fill(1);
         lblFlavor.X = 0;
         lblFlavor.Y = 0;
-        lblFlavor.Text = " * Test!";
+        lblFlavor.Text = "Press [>>>] to continue with the story";
 
         nextButton.X = Pos.Center();
         nextButton.Y = Pos.Bottom(lblFlavor);

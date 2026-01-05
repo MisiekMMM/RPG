@@ -8,7 +8,7 @@ public static class Program
 {
     public static async Task MainAsync()
     {
-        await AiManager.Generate("Explain what is ai in a few sentences");
+
 
     }
     public static void Main()
@@ -19,7 +19,11 @@ public static class Program
         //MainAsync().GetAwaiter().GetResult();
 
         Console.Clear();
-        Console.WriteLine("El kloc");
+        string test = "El Kloc Big Kloc";
+        Console.WriteLine(test[0..7]);
+        Console.WriteLine("Ai loading...");
+        AiManager.SetupChat();
+        Console.WriteLine("Press any key...");
         Console.ReadKey();
 
         Application.Init();
