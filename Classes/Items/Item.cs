@@ -24,8 +24,10 @@ public class Item
     {
         return itemList[id];
     }
-    public static void CreateItem(string name, int health)
+    public static int CreateItem(string name, int health)
     {
+        int id = itemList.Count;
         itemList.Add(new(name) { id = itemList.Count, health = health });
+        return id;
     }
 }

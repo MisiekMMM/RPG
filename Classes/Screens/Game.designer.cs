@@ -31,7 +31,7 @@ public partial class Game : Window
 
     Label lblStory = new();
 
-    Button nextButton = new();
+    Button nextButton = new();//sftyusdy
     void Init()
     {
         Width = Dim.Fill();

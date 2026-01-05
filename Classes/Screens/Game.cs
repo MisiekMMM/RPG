@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using Terminal.Gui;
 
 namespace RPG;
@@ -40,11 +41,22 @@ public partial class Game
 
         lblStats.Text = stats;
     }
+
     async Task Start()
     {
         await Utils.WriteAsync("TEst 123");
         await Utils.WriteAsync("12345678901234567890");
-        await Utils.WriteAsync(await AiManager.Generate("Mam na imię Michał. Zapamiętaj moje imię."));
-        await Utils.WriteAsync(await AiManager.Generate("Jak mam na imię?"));
+        await Utils.WriteAsync("123 Another test");
+
+
+
+        Statystyki stats = new();
+        stats.GetStatsFromHero(Manager.hero!);
+
+        JSON json = new("", new(), true, new(), stats, Manager.hero!.inventory.ToList());
+
+        string serialized = JSON.Serialize(json);
+
+        await Utils.WriteAsync(await AiManager.Generate(serialized));
     }
 }

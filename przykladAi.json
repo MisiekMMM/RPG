@@ -1,0 +1,53 @@
+{
+    "historia": "",
+    "wybor": {
+        "pytanie": "",
+        "opcje": ["","",""]
+    },
+    "przedmioty":[
+    {
+        "typ": "przedmiot",
+        "nazwa": "",
+        "hp": 0
+    },
+    {
+        "typ": "przedmiot",
+        "nazwa": "",
+        "hp": 0
+    }],
+    "money": 0,
+    "sklep": {
+        "rozmowa": "",
+        "przedmioty": [
+            {
+                "cena": 0,
+                "przedmiot": {
+                    "typ": "przedmiot",
+                    "nazwa": "",
+                    "hp": 0
+                },
+                "opis": ""
+            },
+            {
+                "cena": 0,
+                "przedmiot": {
+                    "typ": "przedmiot",
+                    "nazwa": "",
+                    "hp": 0
+                },
+                "opis": ""
+            }
+        ]
+    },
+    "walka": {
+        "przeciwnicy": [
+            {
+                "nazwa": "",
+                "hp": 0,
+                "atak": 0,
+                "opis": ""
+            }
+        ]
+    },
+    "zycie": 0
+}

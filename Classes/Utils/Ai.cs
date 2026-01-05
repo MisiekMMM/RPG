@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using LlmTornado;
 using LlmTornado.Chat;
 using LlmTornado.Chat.Models;
+using LlmTornado.Code;
 using RPG;
 public static class AiManager
 {
@@ -12,10 +13,19 @@ public static class AiManager
     {
         TornadoApi api = new TornadoApi(new Uri("http://localhost:11434"));
         chat = api.Chat.CreateConversation(new ChatModel("llama3.1:8b"));
+        chat.AppendSystemMessage(ReadPrompt());
+
+    }
+
+    static string ReadPrompt()
+    {
+        return File.ReadAllText(@"nowy_prompt.txt");
     }
 
     public static async Task<string> Generate(string prompt)
     {
+        //string prompt = await promptTask;
+
         if (chat == null)
         {
             SetupChat();
@@ -31,8 +41,10 @@ public static class AiManager
         try
         {
             isGenerating = true;
+            Manager.nextButton!.Visible = false;
             _ = Utils.GeneratingLoadingAsync();
             string response = await chat.AppendUserInput(prompt).GetResponse();
+
             isGenerating = false;
 
             return response!;

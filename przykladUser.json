@@ -1,0 +1,46 @@
+{
+    "wybor": "",
+    "przedmioty": [{
+        "typ": "przedmiot",
+        "nazwa": "",
+        "hp": 0
+    }],
+    "wygranoWalke": true,
+    "zakupionePrzedmioty": [{
+        "typ": "przedmiot",
+        "nazwa": "",
+        "hp": 0
+    }],
+    "statystyki":{
+        "poziom": 1,
+        "imie": "",
+        "rasa": "",
+        "klasa": "",
+        "exp": 0,
+        "exp_kolejny_poziom": 0,
+        "mana": 0,
+        "maxMana": 0,
+        "money": 0,
+
+        "strength": 0,
+        "fighting": 0,
+        "shootingSkills": 0,
+        "agility": 0,
+        "speed": 0,
+        "condition": 0,
+        "inteligence": 0,
+        "wisdom": 0,
+        "charisma": 0,
+        "defence": 0,
+        "magic": 0,
+        "luck": 0,
+        "willPower": 0
+    },
+    "ekwipunek":[
+        {
+            "typ": "przedmiot",
+            "nazwa": "",
+            "hp": 0
+        }
+    ]
+}

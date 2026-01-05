@@ -34,20 +34,31 @@ public static class Utils
     }
     public static async Task GeneratingLoadingAsync()
     {
-        //⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
         char[] loadingChars = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+
         while (AiManager.isGenerating)
         {
-            foreach (char i in loadingChars)
+            foreach (char c in loadingChars)
             {
-                Manager.flavorLabel!.Text = i.ToString();
+                Application.Invoke(() =>
+                {
+                    Manager.flavorLabel!.Text = c.ToString();
+                });
+
                 await Task.Delay(90);
             }
         }
-        Manager.flavorLabel!.Text = "Press [>>>] to continue";
+
+        Application.Invoke(() =>
+        {
+            Manager.flavorLabel!.Text = "Press [>>>] to continue";
+        });
     }
+
     public static async Task WriteAsync(string text, string restText = "", int typeRate = 10)
     {
+        text = text.Replace("\n", "");
+        text = text.Replace(Environment.NewLine, "");
         // 52x18 = 936
         Manager.nextButton!.Visible = false;
 
