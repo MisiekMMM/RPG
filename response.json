@@ -1,0 +1,24 @@
+{
+    "historia": "Po pokonaniu wilka odkrywasz w jego jamie starą skrzynię. Kiedy otwierasz ją, wewnątrz leży mapa oraz kieliszek ze szklanym trunkiem.", 
+    "wybor": {
+        "pytanie": "Co robisz?",
+        "opcje": [
+            "Sprawdź zawartość skrzyni",
+            "Weź mapę i idź dalej"
+        ]
+    },
+    "przedmioty": [
+        {
+            "typ": "przedmiot",
+            "nazwa": "Mapa",
+            "hp": 0
+        }
+    ],
+    "money": 50,
+    "sklep": {
+        "rozmowa": "",
+        "przedmioty": []
+    },
+    "walka": {},
+    "zycie": 0
+}

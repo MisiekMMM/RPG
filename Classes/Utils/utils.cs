@@ -34,6 +34,7 @@ public static class Utils
     }
     public static async Task GeneratingLoadingAsync()
     {
+
         char[] loadingChars = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
 
         while (AiManager.isGenerating)
@@ -57,8 +58,8 @@ public static class Utils
 
     public static async Task WriteAsync(string text, string restText = "", int typeRate = 10)
     {
-        text = text.Replace("\n", "");
-        text = text.Replace(Environment.NewLine, "");
+        // text = text.Replace("\n", "");
+        // text = text.Replace(Environment.NewLine, "");
         // 52x18 = 936
         Manager.nextButton!.Visible = false;
 

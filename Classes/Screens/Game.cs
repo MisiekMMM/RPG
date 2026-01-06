@@ -44,19 +44,24 @@ public partial class Game
 
     async Task Start()
     {
-        await Utils.WriteAsync("TEst 123");
-        await Utils.WriteAsync("12345678901234567890");
-        await Utils.WriteAsync("123 Another test");
-
-
-
+        await Utils.WriteAsync("Beep");
+        Console.Beep();
         Statystyki stats = new();
+
         stats.GetStatsFromHero(Manager.hero!);
 
-        JSON json = new("", new(), true, new(), stats, Manager.hero!.inventory.ToList());
 
-        string serialized = JSON.Serialize(json);
+        JSONReport json = new("", new(), true, new(), stats, Manager.hero!.inventory.ToList());
 
-        await Utils.WriteAsync(await AiManager.Generate(serialized));
+        string serialized = JSONReport.Serialize(json);
+        //MessageBox.Query("Bob", "the builder 2", "ok");
+
+        string responseJson = File.ReadAllText(@"response.txt");//await AiManager.Generate(serialized);
+
+        Response response = Response.SetValuesFromJson(responseJson);
+
+        await Utils.WriteAsync($"Historia: {response.Historia}\n{responseJson}");
+
+        //MessageBox.Query("Bob", "the builder 3", "ok");
     }
 }

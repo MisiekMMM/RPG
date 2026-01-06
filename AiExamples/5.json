@@ -1,0 +1,24 @@
+{
+    "historia": "Atakuje cię wilk!",
+    "wybor": {
+        "pytanie": "",
+        "opcje": []
+    },
+    "przedmioty":[],
+    "money": 0,
+    "sklep": {
+        "rozmowa": "",
+        "przedmioty": []
+    },
+    "walka": {
+        "przeciwnicy": [
+            {
+                "nazwa": "Wilk",
+                "hp": 45,
+                "atak": 15,
+                "opis": "Samotny wilk. Prawdopodobnie został wypędzony z grupy."
+            }
+        ]
+    },
+    "zycie": 0
+}

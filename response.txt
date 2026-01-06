@@ -1,0 +1,27 @@
+{
+    "historia": "Po pokonaniu wilka wnikasz do głębi jaskini. Oświetlenie pochodzące ze światła mszy przygasa, a na twoim tropiku lśni coś zza skalnej ściany – niewielki złoty medalion, ozdobiony runami które wydają przeraźliwe światło.",
+    "wybor": {
+        "pytanie": "Co robisz?",
+        "opcje": [
+            "Podnieś medalion",
+            "Zbadaj okolice jaskini",
+            "Powróć do obozu"
+        ]
+    },
+    "przedmioty": [
+        {
+            "typ": "przedmiot",
+            "nazwa": "Medalik złoty",
+            "hp": 0
+        }
+    ],
+    "money": 15,
+    "sklep": {
+        "rozmowa": "",
+        "przedmioty": []
+    },
+    "walka": {
+        "przeciwnicy": []
+    },
+    "zycie": 0
+}

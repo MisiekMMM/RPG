@@ -1,0 +1,25 @@
+{
+    "historia": "Pirat postanowił się wręczyć ci swoją starą broń. <Pirat> Tobię przyda się bardziej niż mi.<Pirat>  * Otrzymujesz szablę pirata",
+    "wybor": {
+        "pytanie": "",
+        "opcje": []
+    },
+    "przedmioty":[{
+                    "typ": "bron",
+                    "nazwa": "Piracka szabla",
+                    "hp": 25
+                }],
+    "money": 0,
+    "sklep": {
+        "rozmowa": "",
+        "przedmioty": [
+            
+        ]
+    },
+    "walka": {
+        "przeciwnicy": [
+            
+        ]
+    },
+    "zycie": 0
+}

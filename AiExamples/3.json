@@ -1,0 +1,19 @@
+{
+    "historia": "Podczas nocy okradli cię złodzieje!",
+    "wybor": {"pytanie": "Co robisz?",
+        "opcje": ["Szukam śladów po złodziejach","Budzę przyjaciół", "Odchodzę od obozu"]},
+    "przedmioty":[],
+    "money": -50,
+    "sklep": {
+        "rozmowa": "",
+        "przedmioty": [
+            
+        ]
+    },
+    "walka": {
+        "przeciwnicy": [
+            
+        ]
+    },
+    "zycie": -20
+}

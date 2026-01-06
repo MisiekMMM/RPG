@@ -1,0 +1,27 @@
+{
+    "historia": "Po pokonaniu wilka, zauważasz w rogu jaskini lśniącą skrzynię. Otwierając ją, находишь starą tarczę oraz trzy złote monety, które błyszczą w przyćmionej otchłani.",
+    "wybor": {
+        "pytanie": "Co robisz?",
+        "opcje": [
+            "Podnieś broń i dodaj do ekwipunku",
+            "Sprawdź okolice w poszukiwaniu drogi wyjazdu",
+            "Zbadaj skrzynię dokładniej"
+        ]
+    },
+    "przedmioty": [
+        {
+            "typ": "bron",
+            "nazwa": "Miec wątły",
+            "hp": 15
+        }
+    ],
+    "money": 30,
+    "sklep": {
+        "rozmowa": "",
+        "przedmioty": []
+    },
+    "walka": {
+        "przeciwnicy": []
+    },
+    "zycie": 0
+}

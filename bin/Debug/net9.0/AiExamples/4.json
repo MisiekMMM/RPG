@@ -1,0 +1,47 @@
+{
+    "historia": "Wchodzisz do podejrzanie wyglądającej szczeliny w ścianie",
+    "wybor": {
+        "pytanie": "",
+        "opcje": []
+    },
+    "przedmioty":[],
+    "money": 0,
+    "sklep": {
+        "rozmowa": "Witaj w moim sklepie! Nie spodziewałem się klienta. W ostatnich czasach mało osób do mnie tutaj przychodzi.",
+        "przedmioty": [
+            {
+                "cena": 100,
+                "przedmiot": {
+                    "typ": "przedmiot",
+                    "nazwa": "Herbata",
+                    "hp": 130
+                },
+                "opis": "Wiem, że dużo kosztuje, ale została zrobiona z tajemnej formuły mojego dziadka."
+            },
+            {
+                "cena": 35,
+                "przedmiot": {
+                    "typ": "bron",
+                    "nazwa": "Wygięty miecz",
+                    "hp": 11
+                },
+                "opis": "To? Nie jest na sprzedaż. Znalazłem to na śmietniku. Oddałbym to nawet za darmo ale interes musi się kręcić!"
+            },
+            {
+                "cena": 15,
+                "przedmiot": {
+                    "typ": "zbroja",
+                    "nazwa": "Kaptur czerwonego mnicha",
+                    "hp": 5
+                },
+                "opis": "Nie posłuży ci jako pancerz, ale świetnie się nada na przebranie na terytorium czerwonych."
+            }
+        ]
+    },
+    "walka": {
+        "przeciwnicy": [
+            
+        ]
+    },
+    "zycie": 0
+}

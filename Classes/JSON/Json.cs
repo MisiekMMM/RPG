@@ -6,7 +6,7 @@ using Terminal.Gui;
 
 namespace RPG;
 
-public class JSON
+public class JSONReport
 {
     [JsonPropertyName("wybor")]
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
@@ -35,11 +35,13 @@ public class JSON
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     public List<Przedmiot> Ekwipunek { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public JSON(string Wybor, List<Item> Przedmioty, bool wygranoWalke, List<Item> ZakupionePrzedmioty, Statystyki statystyki, List<Item> Ekwipunek)
+    public JSONReport(string Wybor, List<Item> Przedmioty, bool wygranoWalke, List<Item> ZakupionePrzedmioty, Statystyki statystyki, List<Item> Ekwipunek)
     {
+
         this.Wybor = Wybor;
 
         this.Przedmioty = new();
+
         foreach (Item item in Przedmioty)
         {
             this.Przedmioty.Add(Przedmiot.ConvertFromItem(item));
@@ -58,11 +60,14 @@ public class JSON
         this.Ekwipunek = new();
         foreach (Item item in Ekwipunek)
         {
-            this.Ekwipunek.Add(Przedmiot.ConvertFromItem(item));
+            if (item != null)
+            {
+                this.Ekwipunek.Add(Przedmiot.ConvertFromItem(item));
+            }
         }
     }
 
-    public static string Serialize(JSON obj)
+    public static string Serialize(JSONReport obj)
     {
 
         var options = new JsonSerializerOptions
