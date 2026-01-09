@@ -14,6 +14,7 @@ public static class Manager
     public static Hero? hero;
     public static int saveId = 0;
     public static List<int> values = new();
+    public static List<Button> inventoryButtons = new();
     public static Dictionary<string, Race> races = new()
     {
         {"Człowiek", new("Człowiek", 10,10,5,5,5,10,0,0,0,-10, 180)},

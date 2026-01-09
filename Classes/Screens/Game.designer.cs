@@ -11,10 +11,14 @@ public partial class Game : Window
 
     Label lblName = new();
     Label lblLevel = new();
+    Label lblMoney = new();
     Label lblRaceClass = new();
     Label lblStats = new();
 
     Label lblFlavor = new();
+
+    ComboBox cmbWybor = new();
+    Label lblPytanie = new();
 
     Label lblWeapon = new();
     Label lblArmor = new();
@@ -28,6 +32,7 @@ public partial class Game : Window
     Button item6 = new();
     Button item7 = new();
     Button item8 = new();
+    Button itemNew = new();
 
     Label lblStory = new();
 
@@ -45,7 +50,7 @@ public partial class Game : Window
         LeftPanel.SetBorderStyle(LineStyle.Rounded);
         LeftPanel.X = Pos.Percent(0);
         LeftPanel.Y = 0;
-        LeftPanel.Add(lblName, lblLevel, lblRaceClass, lblStats);
+        LeftPanel.Add(lblName, lblLevel, lblRaceClass, lblStats, lblMoney);
 
         MiddlePanel.Width = Dim.Percent(60);
         MiddlePanel.Height = Dim.Percent(70);
@@ -67,14 +72,14 @@ public partial class Game : Window
         DownPanel.SetBorderStyle(LineStyle.Rounded);
         DownPanel.X = Pos.Percent(20);
         DownPanel.Y = Pos.Percent(70);
-        DownPanel.Add(lblFlavor, nextButton);
+        DownPanel.Add(cmbWybor, lblFlavor, nextButton);
 
         RightPanel.Width = Dim.Percent(20);
         RightPanel.Height = Dim.Fill();
         RightPanel.SetBorderStyle(LineStyle.Rounded);
         RightPanel.X = Pos.Percent(80);
         RightPanel.Y = Pos.Percent(0);
-        RightPanel.Add(lblArmor, lblWeapon, item1, item2, item3, item4, item5, item6, item7, item8, lblHP);
+        RightPanel.Add(lblArmor, lblWeapon, item1, item2, item3, item4, item5, item6, item7, item8, itemNew, lblHP);
 
         lblName.X = Pos.Center();
         lblName.Y = Pos.Percent(10);
@@ -83,6 +88,10 @@ public partial class Game : Window
         lblLevel.X = Pos.Center();
         lblLevel.Y = Pos.Percent(13);
         lblLevel.Text = "Level";
+
+        lblMoney.X = Pos.Center();
+        lblMoney.Y = Pos.Bottom(lblRaceClass);
+        lblMoney.Text = "0 $";
 
         lblRaceClass.X = Pos.Center();
         lblRaceClass.Y = Pos.Percent(16);
@@ -94,13 +103,21 @@ public partial class Game : Window
         lblStats.Text = "Statystyki:\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----";
 
         lblFlavor.Width = Dim.Fill();
-        lblFlavor.Height = Dim.Fill(1);
+        lblFlavor.Height = 2;
         lblFlavor.X = 0;
         lblFlavor.Y = 0;
         lblFlavor.Text = "Press [>>>] to continue with the story";
 
+        cmbWybor.Y = Pos.Bottom(lblFlavor);
+        cmbWybor.X = Pos.Center();
+        cmbWybor.Visible = false;
+        cmbWybor.Width = Dim.Percent(50);
+        cmbWybor.Height = 4;
+        cmbWybor.TextAlignment = Alignment.Center;
+        cmbWybor.ReadOnly = true;
+
         nextButton.X = Pos.Center();
-        nextButton.Y = Pos.Bottom(lblFlavor);
+        nextButton.Y = Pos.Percent(100) - 1;
         nextButton.Text = ">>>";
 
         lblWeapon.X = Pos.Center();
@@ -119,6 +136,7 @@ public partial class Game : Window
         item6.X = Pos.Center();
         item7.X = Pos.Center();
         item8.X = Pos.Center();
+        itemNew.X = Pos.Center();
 
         item1.Y = Pos.Bottom(lblArmor) + 3;
         item2.Y = Pos.Bottom(item1);
@@ -128,6 +146,7 @@ public partial class Game : Window
         item6.Y = Pos.Bottom(item5);
         item7.Y = Pos.Bottom(item6);
         item8.Y = Pos.Bottom(item7);
+        itemNew.Y = Pos.Bottom(item8) + 1;
 
         item1.Text = "---";
         item2.Text = "---";
@@ -137,6 +156,9 @@ public partial class Game : Window
         item6.Text = "---";
         item7.Text = "---";
         item8.Text = "---";
+        itemNew.Text = "---";
+
+        itemNew.Visible = false;
 
         lblHP.X = Pos.Center();
         lblHP.Y = Pos.Bottom(item8) + 3;

@@ -34,6 +34,29 @@ public class Hero
     public int maxMana;
     public int money;
 
+    public async Task GiveItem(Item item)
+    {
+        if (Utils.IsAnyNull(inventory))
+        {
+            inventory[Utils.FindLastIndex(inventory)] = item;
+        }
+        else
+        {
+            await Utils.WriteFlavorAsync("No inventory space available!");
+            Manager.inventoryButtons[8].Text = item.name;
+
+            int buttonId = await Utils.WaitForInventoryButtonClickAsync(true);
+
+            if (buttonId == 8)
+            {
+                return;
+            }
+            else
+            {
+                Manager.hero!.inventory[buttonId] = item;
+            }
+        }
+    }
     public void AddHealth(int health)
     {
         this.health += health;

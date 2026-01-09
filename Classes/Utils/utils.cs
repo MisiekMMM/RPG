@@ -6,6 +6,7 @@ namespace RPG;
 
 public static class Utils
 {
+    public static bool WaitingForInventoryClick = false;
     public static void Wyczysc()
     {
         Console.Clear();
@@ -82,6 +83,46 @@ public static class Utils
             await WriteAsync(restText, "", typeRate);
         }
     }
+    public static async Task WriteFlavorAsync(string text, int typeRate = 10)
+    {
+        Manager.flavorLabel!.Text = "";
+        foreach (char c in text)
+        {
+            Manager.flavorLabel!.Text += c;
+            await Task.Delay(typeRate); // Waits 1 second without blocking the thread
+        }
+    }
+    public static async Task<int> WaitForInventoryButtonClickAsync(bool showNew = false)
+    {
+        WaitingForInventoryClick = true;
+        if (showNew)
+        {
+            Manager.inventoryButtons[8].Visible = true;
+        }
+
+        var tcs = new TaskCompletionSource<bool>();
+
+        int buttonId = 0;
+
+        for (int i = 0; i < Manager.inventoryButtons.Count; i++)
+        {
+            Button button = Manager.inventoryButtons[i];
+
+            EventHandler<CommandEventArgs> handler = null!;
+            handler = (object? sender, CommandEventArgs args) =>
+            {
+                button.Accepting -= handler; // poprawne zdarzenie: Accepted
+                buttonId = i;
+                tcs.SetResult(true);
+            };
+
+            button.Accepting += handler;
+        }
+        await tcs.Task;
+        WaitingForInventoryClick = false;
+        Manager.inventoryButtons[8].Visible = false;
+        return buttonId;
+    }
     public static async Task WaitForButtonClickAsync(Button button)
     {
         var tcs = new TaskCompletionSource<bool>();
@@ -89,6 +130,7 @@ public static class Utils
         EventHandler<CommandEventArgs> handler = null!;
         handler = (object? sender, CommandEventArgs args) =>
         {
+            button.SetFocus();
             button.Accepting -= handler; // poprawne zdarzenie: Accepted
             tcs.SetResult(true);
         };

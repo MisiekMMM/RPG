@@ -1,18 +1,14 @@
 {
-    "historia": "Po pokonaniu wilka wnikasz do głębi jaskini. Oświetlenie pochodzące ze światła mszy przygasa, a na twoim tropiku lśni coś zza skalnej ściany – niewielki złoty medalion, ozdobiony runami które wydają przeraźliwe światło.",
+    "historia": "Otwierasz skrzynię i znajdujesz w środku lśniące biżuterium oraz stary miecz, który pulsuje magicznym światłem. Nagle z cienia wyłania się kamienny golem, gotowy cię strzec skarbu.",
     "wybor": {
-        "pytanie": "Co robisz?",
-        "opcje": [
-            "Podnieś medalion",
-            "Zbadaj okolice jaskini",
-            "Powróć do obozu"
-        ]
+        "pytanie": "",
+        "opcje": []
     },
     "przedmioty": [
         {
-            "typ": "przedmiot",
-            "nazwa": "Medalik złoty",
-            "hp": 0
+            "typ": "bron",
+            "nazwa": "Miecz Ognisty",
+            "hp": 35
         }
     ],
     "money": 15,
@@ -21,7 +17,14 @@
         "przedmioty": []
     },
     "walka": {
-        "przeciwnicy": []
+        "przeciwnicy": [
+            {
+                "nazwa": "Golem Kamienny",
+                "hp": 40,
+                "atak": 12,
+                "opis": "Nieruchoma postać z kruszącej się skóry."
+            }
+        ]
     },
-    "zycie": 0
+    "zycie": 6
 }

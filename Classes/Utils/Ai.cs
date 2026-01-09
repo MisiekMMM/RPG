@@ -43,7 +43,7 @@ public static class AiManager
 
             _ = Utils.GeneratingLoadingAsync();
             string response = await chat.AppendUserInput(prompt).GetResponse();
-            Console.Beep();
+
             isGenerating = false;
 
             File.WriteAllText(@"response.txt", response);
