@@ -206,9 +206,6 @@ public partial class Game
             await Utils.WriteFlavorAsync("Nie masz wystarczającej ilości pieniędzy");
         }
 
-        await Utils.WaitForButtonClickAsync(Manager.nextButton!);
-        await Utils.WriteFlavorAsync("Press [>>>] to continue with the story");
-
         CanClickBuy = true;
     }
 }
