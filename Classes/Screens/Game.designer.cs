@@ -1,3 +1,4 @@
+using System.Drawing;
 using Terminal.Gui;
 
 namespace RPG;
@@ -8,6 +9,8 @@ public partial class Game : Window
     FrameView MiddlePanel = new();
     FrameView DownPanel = new();
     FrameView RightPanel = new();
+
+    FrameView ShopMiddlePanel = new();
 
     Label lblName = new();
     Label lblLevel = new();
@@ -37,6 +40,17 @@ public partial class Game : Window
     Label lblStory = new();
 
     Button nextButton = new();//sftyusdy
+
+    ListView ShopItemsListView = new();
+    FrameView ShopDetails = new();
+    Label ShopTalking = new();
+
+    Label ItemName = new();
+    Label ItemPrice = new();
+    Label ItemType = new();
+    Label ItemHP = new();
+    Label ItemDescription = new();
+    Button BtnItemBuy = new();
     void Init()
     {
         Width = Dim.Fill();
@@ -58,6 +72,75 @@ public partial class Game : Window
         MiddlePanel.X = Pos.Percent(20);
         MiddlePanel.Y = Pos.Percent(0);
         MiddlePanel.Add(lblStory);
+
+        ShopMiddlePanel.Title = "Sklep";
+        ShopMiddlePanel.Width = Dim.Percent(60);
+        ShopMiddlePanel.Height = Dim.Percent(70);
+        ShopMiddlePanel.SetBorderStyle(LineStyle.Rounded);
+        ShopMiddlePanel.X = Pos.Percent(20);
+        ShopMiddlePanel.Y = Pos.Percent(0);
+        ShopMiddlePanel.Visible = false;
+        ShopMiddlePanel.Add(ShopItemsListView, ShopDetails, ShopTalking);
+
+        ShopItemsListView.Title = "Przedmioty";
+        ShopItemsListView.X = 0;
+        ShopItemsListView.Y = Pos.Percent(50);
+        ShopItemsListView.Width = Dim.Percent(30);
+        ShopItemsListView.Height = Dim.Percent(50);
+        ShopItemsListView.AllowsMarking = false;
+        ShopItemsListView.AllowsMultipleSelection = false;
+        ShopItemsListView.BorderStyle = LineStyle.Dotted;
+        ShopItemsListView.Arrangement = ViewArrangement.Fixed;
+        ShopItemsListView.VerticalScrollBar.AutoShow = true;
+        ShopItemsListView.SelectedItemChanged += UpdateShopItemDetails;
+        //ShopLabel.Text = "12312\n12312\n12312\n12312\n12312\n12312\n1231212312\n12312\n12312\n12312\n12312\n12312\n1231212312\n12312\n12312\n12312\n12312\n12312\n12312";
+
+        ShopDetails.Width = Dim.Percent(70);
+        ShopDetails.Height = Dim.Percent(50);
+        ShopDetails.Title = "Informacje";
+        ShopDetails.X = Pos.Percent(30);
+        ShopDetails.Y = Pos.Percent(50);
+        ShopDetails.Add(ItemPrice, ItemHP, ItemName, ItemType, ItemDescription, BtnItemBuy);
+
+        ItemName.X = 0;
+        ItemName.Y = 0;
+        ItemName.Text = "--";
+        ItemName.Height = 2;
+        ItemName.Width = Dim.Percent(50);
+
+        ItemType.X = 0;
+        ItemType.Y = Pos.Bottom(ItemName);
+        ItemType.Text = "--";
+        ItemType.Height = 2;
+        ItemType.Width = Dim.Fill(50);
+
+        ItemPrice.X = 0;
+        ItemPrice.Y = Pos.Bottom(ItemType);
+        ItemPrice.Text = "--$";
+        ItemPrice.Height = 2;
+        ItemPrice.Width = Dim.Percent(50);
+
+        ItemHP.X = 0;
+        ItemHP.Y = Pos.Bottom(ItemPrice);
+        ItemHP.Text = "-- HP";
+
+        ItemDescription.X = Pos.Right(ItemName);
+        ItemDescription.Y = 0;
+        ItemDescription.Text = "--";
+        ItemDescription.Width = Dim.Percent(50);
+        ItemDescription.Height = Dim.Fill(1);
+
+        BtnItemBuy.Text = "Buy";
+        BtnItemBuy.X = Pos.Percent(75);
+        BtnItemBuy.Y = Pos.Bottom(ItemDescription);
+        BtnItemBuy.Accepting += OnBuyClicked;
+
+        ShopTalking.X = Pos.Center();
+        ShopTalking.Y = Pos.Percent(10);
+        ShopTalking.Width = Dim.Percent(75);
+        ShopTalking.Height = Dim.Percent(40);
+        ShopTalking.TextAlignment = Alignment.Center;
+        ShopTalking.Text = "Witaj w sklepie!";
 
         lblStory.X = Pos.Center();
         lblStory.Y = Pos.Percent(10);
@@ -164,6 +247,6 @@ public partial class Game : Window
         lblHP.Y = Pos.Bottom(item8) + 3;
         lblHP.Text = "HP: 100/100";
 
-        Add(LeftPanel, MiddlePanel, DownPanel, RightPanel);
+        Add(LeftPanel, MiddlePanel, DownPanel, RightPanel, ShopMiddlePanel);
     }
 }

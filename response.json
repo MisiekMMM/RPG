@@ -16,8 +16,27 @@
     ],
     "money": 50,
     "sklep": {
-        "rozmowa": "",
-        "przedmioty": []
+        "rozmowa": "Rozmowa w sklepie",
+        "przedmioty": [
+            {
+                "cena": 100,
+                "przedmiot": {
+                    "typ": "przedmiot",
+                    "nazwa": "Lina",
+                    "hp": 0
+                },
+                "opis": "Można się po niej wspinać"
+            },
+            {
+                "cena": 0,
+                "przedmiot": {
+                    "typ": "zbroja",
+                    "nazwa": "Biżuterium",
+                    "hp": 10
+                },
+                "opis": "Dzięki niemu twoje stopnie echoczą."
+            }
+        ]
     },
     "walka": {},
     "zycie": 0

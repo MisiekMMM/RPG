@@ -13,6 +13,7 @@ public static class Manager
     public static Button? nextButton;
     public static Hero? hero;
     public static int saveId = 0;
+    public static Label ShopTalkLabel = new();
     public static List<int> values = new();
     public static List<Button> inventoryButtons = new();
     public static Dictionary<string, Race> races = new()
@@ -26,6 +27,7 @@ public static class Manager
         Normal = new Terminal.Gui.Attribute(Color.White, Color.Black),
         Focus = new Terminal.Gui.Attribute(Color.Black, Color.White),
     };
+    public static List<PrzedmiotSklep> ShopList = new();
     public static void Save(string path)
     {
         using StreamWriter sW = new(path);

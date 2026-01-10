@@ -1,30 +1,40 @@
 {
-    "historia": "Otwierasz skrzynię i znajdujesz w środku lśniące biżuterium oraz stary miecz, który pulsuje magicznym światłem. Nagle z cienia wyłania się kamienny golem, gotowy cię strzec skarbu.",
+    "historia": "Po pokonaniu wilka odkrywasz w jego jamie starą skrzynię. Kiedy otwierasz ją, wewnątrz leży mapa oraz kieliszek ze szklanym trunkiem.", 
     "wybor": {
         "pytanie": "",
         "opcje": []
     },
     "przedmioty": [
         {
-            "typ": "bron",
-            "nazwa": "Miecz Ognisty",
-            "hp": 35
+            "typ": "przedmiot",
+            "nazwa": "Mapa",
+            "hp": 0
         }
     ],
-    "money": 15,
+    "money": 1000,
     "sklep": {
-        "rozmowa": "",
-        "przedmioty": []
-    },
-    "walka": {
-        "przeciwnicy": [
+        "rozmowa": "Rozmowa w sklepie",
+        "przedmioty": [
             {
-                "nazwa": "Golem Kamienny",
-                "hp": 40,
-                "atak": 12,
-                "opis": "Nieruchoma postać z kruszącej się skóry."
+                "cena": 100,
+                "przedmiot": {
+                    "typ": "przedmiot",
+                    "nazwa": "Lina",
+                    "hp": 0
+                },
+                "opis": "Można się po niej wspinać"
+            },
+            {
+                "cena": 0,
+                "przedmiot": {
+                    "typ": "zbroja",
+                    "nazwa": "Biżuterium",
+                    "hp": 10
+                },
+                "opis": "Dzięki niemu twoje stopnie echoczą."
             }
         ]
     },
-    "zycie": 6
+    "walka": {},
+    "zycie": 0
 }

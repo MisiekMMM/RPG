@@ -92,6 +92,15 @@ public static class Utils
             await Task.Delay(typeRate); // Waits 1 second without blocking the thread
         }
     }
+    public static async Task WriteShopAsync(string text, int typeRate = 10)
+    {
+        Manager.ShopTalkLabel!.Text = "";
+        foreach (char c in text)
+        {
+            Manager.ShopTalkLabel!.Text += c;
+            await Task.Delay(typeRate); // Waits 1 second without blocking the thread
+        }
+    }
     public static async Task<int> WaitForInventoryButtonClickAsync(bool showNew = false)
     {
         WaitingForInventoryClick = true;
@@ -130,6 +139,8 @@ public static class Utils
         EventHandler<CommandEventArgs> handler = null!;
         handler = (object? sender, CommandEventArgs args) =>
         {
+            button.CanFocus = true;
+            button.HasFocus = true;
             button.SetFocus();
             button.Accepting -= handler; // poprawne zdarzenie: Accepted
             tcs.SetResult(true);

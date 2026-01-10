@@ -1,27 +1,40 @@
 {
-    "historia": "Po pokonaniu wilka, zauważasz w rogu jaskini lśniącą skrzynię. Otwierając ją, находишь starą tarczę oraz trzy złote monety, które błyszczą w przyćmionej otchłani.",
+    "historia": "Po pokonaniu wilka odkrywasz w jego jamie starą skrzynię. Kiedy otwierasz ją, wewnątrz leży mapa oraz kieliszek ze szklanym trunkiem.", 
     "wybor": {
-        "pytanie": "Co robisz?",
-        "opcje": [
-            "Podnieś broń i dodaj do ekwipunku",
-            "Sprawdź okolice w poszukiwaniu drogi wyjazdu",
-            "Zbadaj skrzynię dokładniej"
-        ]
+        "pytanie": "",
+        "opcje": []
     },
     "przedmioty": [
         {
-            "typ": "bron",
-            "nazwa": "Miec wątły",
-            "hp": 15
+            "typ": "przedmiot",
+            "nazwa": "Mapa",
+            "hp": 0
         }
     ],
-    "money": 30,
+    "money": 1000,
     "sklep": {
-        "rozmowa": "",
-        "przedmioty": []
+        "rozmowa": "Rozmowa w sklepie",
+        "przedmioty": [
+            {
+                "cena": 100,
+                "przedmiot": {
+                    "typ": "przedmiot",
+                    "nazwa": "Lina",
+                    "hp": 0
+                },
+                "opis": "Można się po niej wspinać"
+            },
+            {
+                "cena": 0,
+                "przedmiot": {
+                    "typ": "zbroja",
+                    "nazwa": "Biżuterium",
+                    "hp": 10
+                },
+                "opis": "Dzięki niemu twoje stopnie echoczą."
+            }
+        ]
     },
-    "walka": {
-        "przeciwnicy": []
-    },
+    "walka": {},
     "zycie": 0
 }

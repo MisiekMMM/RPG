@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Serialization;
+using Newtonsoft.Json.Serialization;
 using Terminal.Gui;
 
 namespace RPG;
@@ -8,6 +9,7 @@ namespace RPG;
 public partial class Game
 {
     public Task Initialization { get; }
+    public bool CanClickBuy = true;
 
     public Game()
     {
@@ -17,6 +19,7 @@ public partial class Game
         Manager.StoryLabel = lblStory;
         Manager.nextButton = nextButton;
         Manager.inventoryButtons = [item1, item2, item3, item4, item5, item6, item7, item8, itemNew];
+        Manager.ShopTalkLabel = ShopTalking;
 
         Update();
 
@@ -74,7 +77,7 @@ public partial class Game
             string serialized = JSONReport.Serialize(json);
             //MessageBox.Query("Bob", "the builder 2", "ok");
 
-            string responseJson = await AiManager.Generate(serialized);//File.ReadAllText(@"response.txt");//
+            string responseJson = File.ReadAllText(@"response.txt");//await AiManager.Generate(serialized);//
 
             Response response = Response.SetValuesFromJson(responseJson);
 
@@ -135,17 +138,77 @@ public partial class Game
 
             if (response.Sklep.Przedmioty.Count != 0)
             {
-                //Initalize shop here
+                MiddlePanel.Visible = false;
+                ShopMiddlePanel.Visible = true;
+
+                Manager.ShopList = response.Sklep.Przedmioty;
+
+                ObservableCollection<string> itemNames = new();
+
+                foreach (PrzedmiotSklep p in response.Sklep.Przedmioty)
+                {
+                    itemNames.Add(p.Przedmiot.Nazwa);
+                }
+
+                ShopItemsListView.SetSource(itemNames);
+
+                await Utils.WriteFlavorAsync("Press [>>>] to continue with the story");
+                await Utils.WaitForButtonClickAsync(Manager.nextButton!);
+
+                MiddlePanel.Visible = true;
+                ShopMiddlePanel.Visible = false;
+
+                stats.GetStatsFromHero(Manager.hero!);
+                json = new(cmbWybor.Text, new(), true, new(), stats, Manager.hero!.inventory.ToList());
+
+                continue;
             }
 
-            await Utils.WriteFlavorAsync("Press [>>>] to continue with the story");
-            await Utils.WaitForButtonClickAsync(Manager.nextButton!);
-
+            //Add battling here
             stats.GetStatsFromHero(Manager.hero!);
             json = new("", new(), true, new(), stats, Manager.hero!.inventory.ToList());
 
             continue;
 
         }
+    }
+    void UpdateShopItemDetails(object sender, ListViewItemEventArgs e)
+    {
+        PrzedmiotSklep item = Manager.ShopList[ShopItemsListView.SelectedItem];
+
+        ItemName.Text = item.Przedmiot.Nazwa;
+        ItemHP.Text = item.Przedmiot.Hp.ToString() + " HP";
+        ItemDescription.Text = item.Opis;
+        ItemPrice.Text = item.cena.ToString() + "$";
+        ItemType.Text = item.Przedmiot.Typ;
+    }
+    async void OnBuyClicked(object? sender, CommandEventArgs args)
+    {
+        if (!CanClickBuy)
+        {
+            return;
+        }
+
+        CanClickBuy = false;
+
+        PrzedmiotSklep item = Manager.ShopList[ShopItemsListView.SelectedItem];
+        if (Manager.hero!.money >= item.cena)
+        {
+            Manager.hero.money -= item.cena;
+            await Manager.hero.GiveItem(item.Przedmiot.ConvertIntoItem());
+
+            await Utils.WriteFlavorAsync($"Zakupiłeś {item.Przedmiot.Nazwa}");
+
+            Update();
+        }
+        else
+        {
+            await Utils.WriteFlavorAsync("Nie masz wystarczającej ilości pieniędzy");
+        }
+
+        await Utils.WaitForButtonClickAsync(Manager.nextButton!);
+        await Utils.WriteFlavorAsync("Press [>>>] to continue with the story");
+
+        CanClickBuy = true;
     }
 }
