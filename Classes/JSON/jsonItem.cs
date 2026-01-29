@@ -36,6 +36,7 @@ public class Przedmiot
         {
             return new("bron", item.name, item.health);
         }
+
         else if (item.GetType() == typeof(Armor))
         {
             return new("zbroja", item.name, item.health);
