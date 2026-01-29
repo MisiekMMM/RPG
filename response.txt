@@ -32,6 +32,15 @@
                     "hp": 10
                 },
                 "opis": "Dzięki niemu twoje stopnie echoczą."
+            },
+            {
+                "cena": 0,
+                "przedmiot": {
+                    "typ": "zbroja",
+                    "nazwa": "Maseczka na twarz",
+                    "hp": 1
+                },
+                "opis": "Nałóż sobie może naprawi twoją brzydką twarz."
             }
         ]
     },

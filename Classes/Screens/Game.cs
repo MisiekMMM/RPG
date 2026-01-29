@@ -7,8 +7,8 @@ public partial class Game
 {
     public Task Initialization { get; }
     public bool CanClickBuy = true;
-    public List<Item> UzytePrzedmioty = new();
-    public List<Item> ZakupionePrzedmioty = new();
+    public List<JSONItem> UzytePrzedmioty = new();
+    public List<JSONItem> ZakupionePrzedmioty = new();
 
     public Game()
     {
@@ -28,8 +28,8 @@ public partial class Game
     {
         lblName.Text = Manager.hero!.name;
 
-        lblArmor.Text = $"Zbroja: " + (Manager.hero.armor != null ? Manager.hero.armor.name : "---");
-        lblWeapon.Text = $"Broń: " + (Manager.hero.weapon != null ? Manager.hero.weapon.name : "---");
+        lblArmor.Text = $"Zbroja: " + (Manager.hero.armor != null ? Manager.hero.armor.Nazwa : "---");
+        lblWeapon.Text = $"Broń: " + (Manager.hero.weapon != null ? Manager.hero.weapon.Nazwa : "---");
 
         lblHP.Text = $"HP: {Manager.hero.health}/{Manager.hero.maxHealth}";
 
@@ -52,7 +52,7 @@ public partial class Game
         {
             if (Manager.hero.inventory[i] != null)
             {
-                Manager.inventoryButtons[i].Text = Manager.hero.inventory[i].name;
+                Manager.inventoryButtons[i].Text = Manager.hero.inventory[i].Nazwa;
             }
             else
             {
@@ -91,14 +91,12 @@ public partial class Game
                 Update();
             }
 
-            foreach (Przedmiot przedmiot in response.Przedmioty)
+            foreach (JSONItem przedmiot in response.Przedmioty)
             {
-                Item item = przedmiot.ConvertIntoItem();
-
-                await Utils.WriteFlavorAsync($"Otrzymujesz {item.name} [>>>]");
+                await Utils.WriteFlavorAsync($"Otrzymujesz {przedmiot.Nazwa} [>>>]");
                 await Utils.WaitForButtonClickAsync(Manager.nextButton!);
 
-                await Manager.hero.GiveItem(item);
+                await Manager.hero.GiveItem(przedmiot);
                 Update();
             }
 
@@ -203,13 +201,15 @@ public partial class Game
                 BtnItemInfo.Visible = false;
                 BtnUse.Visible = false;
 
-                Item item = Manager.hero!.inventory[buttonID];
-                if (Manager.hero!.inventory[buttonID].GetType() == typeof(Weapon))
-                    await Utils.WriteFlavorAsync($"{item.name}: Broń atk:{item.health}");
-                else if (Manager.hero!.inventory[buttonID].GetType() == typeof(Armor))
-                    await Utils.WriteFlavorAsync($"{item.name}: Zbroja def:{item.health}");
+                JSONItem item = Manager.hero!.inventory[buttonID]; // "przedmiot", "zbroja", "bron"
+                if (Manager.hero!.inventory[buttonID].Typ == "bron")
+                    await Utils.WriteFlavorAsync($"{item.Nazwa}: Broń atk:{item.Hp}");
+                else if (Manager.hero!.inventory[buttonID].Typ == "zbroja")
+                    await Utils.WriteFlavorAsync($"{item.Nazwa}: Zbroja def:{item.Hp}");
+                else if (item.Hp != 0)
+                    await Utils.WriteFlavorAsync($"{item.Nazwa}: Item HP:{item.Hp}");
                 else
-                    await Utils.WriteFlavorAsync($"{item.name}: Item HP:{item.health}");
+                    await Utils.WriteFlavorAsync($"{item.Nazwa}: Item");
 
                 BtnDrop.Visible = true;
                 BtnItemInfo.Visible = true;
@@ -233,7 +233,7 @@ public partial class Game
 
             if (Manager.hero!.inventory[buttonID] != null)
             {
-                await Utils.WriteFlavorAsync($"Wyrzucasz {Manager.hero!.inventory[buttonID].name}");
+                await Utils.WriteFlavorAsync($"Wyrzucasz {Manager.hero!.inventory[buttonID].Nazwa}");
 
                 Manager.hero!.inventory[buttonID] = null!;
 
@@ -261,12 +261,12 @@ public partial class Game
 
             if (Manager.hero!.inventory[buttonID] != null)
             {
-                await Utils.WriteFlavorAsync($"Używasz {Manager.hero!.inventory[buttonID].name}");
+                await Utils.WriteFlavorAsync($"Używasz {Manager.hero!.inventory[buttonID].Nazwa}");
             }
 
             UzytePrzedmioty.Add(Manager.hero!.inventory[buttonID]);
 
-            Manager.hero!.UseItem(Manager.hero!.inventory[buttonID], buttonID);
+            await Manager.hero!.UseItem(Manager.hero!.inventory[buttonID], buttonID);
 
             Update();
 
@@ -308,12 +308,12 @@ public partial class Game
 
         PrzedmiotSklep item = Manager.ShopList[ShopItemsListView.SelectedItem];
 
-        ZakupionePrzedmioty.Add(item.Przedmiot.ConvertIntoItem());
+        ZakupionePrzedmioty.Add(item.Przedmiot);
 
         if (Manager.hero!.money >= item.cena)
         {
             Manager.hero.money -= item.cena;
-            await Manager.hero.GiveItem(item.Przedmiot.ConvertIntoItem());
+            await Manager.hero.GiveItem(item.Przedmiot);
 
             await Utils.WriteFlavorAsync($"Zakupiłeś {item.Przedmiot.Nazwa}");
 

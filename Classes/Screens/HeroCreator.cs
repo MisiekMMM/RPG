@@ -24,8 +24,7 @@ public partial class HeroCreator
     {
         if (areStats)
         {
-            Manager.Save($"save{Manager.saveId}.sv");
-            MessageBox.Query("!!!", "Zapisano", "Wyjdź", "Wyjdź");
+            //Manager.Save($"save{Manager.saveId}.sv");
             Application.RequestStop();
         }
         else
@@ -42,6 +41,7 @@ public partial class HeroCreator
             Manager.hero = new();
             Manager.hero.name = nameField.Text;
             Manager.hero.rasa = Manager.races[cmbRasy2.Text];
+            Manager.hero.klasa = cmbKlasy.Text;
 
             Manager.hero.health = Manager.hero.rasa.health;
             Manager.hero.maxHealth = Manager.hero.rasa.maxHealth;

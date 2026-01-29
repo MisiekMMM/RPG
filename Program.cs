@@ -28,15 +28,17 @@ public static class Program
 
         Application.Init();
 
-        Application.Run(new TempBattle());
+        //Application.Run(new TempBattle());
 
-        Application.Run(new Login());
-        Application.Run(new Menu());
+        //Application.Run(new Login());
+        //Application.Run(new Menu());
 
-        if (!File.Exists(Path.Combine(Environment.CurrentDirectory, @$"save{Manager.saveId}.sv")))
-        {
-            Application.Run(new HeroCreator());
-        }
+        Application.Run(new HeroCreator());
+
+        // if (!File.Exists(Path.Combine(Environment.CurrentDirectory, @$"save{Manager.saveId}.sv")))
+        // {
+        //     Application.Run(new HeroCreator());
+        // }
 
         Application.Run(new Game());
     }

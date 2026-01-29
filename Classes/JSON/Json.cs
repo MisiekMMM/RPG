@@ -15,7 +15,7 @@ public class JSONReport
 
     [JsonPropertyName("przedmioty")]
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public List<Przedmiot> Przedmioty { get; set; }
+    public List<JSONItem> Przedmioty { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
     [JsonPropertyName("wygranoWalke")]
@@ -23,7 +23,7 @@ public class JSONReport
 
     [JsonPropertyName("zakupionePrzedmioty")]
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public List<Przedmiot> ZakupionePrzedmioty { get; set; }
+    public List<JSONItem> ZakupionePrzedmioty { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
     [JsonPropertyName("statystyki")]
@@ -33,36 +33,36 @@ public class JSONReport
 
     [JsonPropertyName("ekwipunek")]
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public List<Przedmiot> Ekwipunek { get; set; }
+    public List<JSONItem> Ekwipunek { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public JSONReport(string Wybor, List<Item> Przedmioty, bool wygranoWalke, List<Item> ZakupionePrzedmioty, Statystyki statystyki, List<Item> Ekwipunek)
+    public JSONReport(string Wybor, List<JSONItem> Przedmioty, bool wygranoWalke, List<JSONItem> ZakupionePrzedmioty, Statystyki statystyki, List<JSONItem> Ekwipunek)
     {
 
         this.Wybor = Wybor;
 
         this.Przedmioty = new();
 
-        foreach (Item item in Przedmioty)
+        foreach (JSONItem item in Przedmioty)
         {
-            this.Przedmioty.Add(Przedmiot.ConvertFromItem(item));
+            this.Przedmioty.Add(item);
         }
 
         this.WygranoWalke = wygranoWalke;
 
         this.ZakupionePrzedmioty = new();
-        foreach (Item item in ZakupionePrzedmioty)
+        foreach (JSONItem item in ZakupionePrzedmioty)
         {
-            this.ZakupionePrzedmioty.Add(Przedmiot.ConvertFromItem(item));
+            this.ZakupionePrzedmioty.Add(item);
         }
 
         this.Statystyki = statystyki;
 
         this.Ekwipunek = new();
-        foreach (Item item in Ekwipunek)
+        foreach (JSONItem item in Ekwipunek)
         {
             if (item != null)
             {
-                this.Ekwipunek.Add(Przedmiot.ConvertFromItem(item));
+                this.Ekwipunek.Add(item);
             }
         }
     }

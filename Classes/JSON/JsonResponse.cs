@@ -13,7 +13,7 @@ public class Response
     [JsonPropertyName("wybor")]
     public Wybor Wybor { get; set; }
     [JsonPropertyName("przedmioty")]
-    public List<Przedmiot> Przedmioty { get; set; }
+    public List<JSONItem> Przedmioty { get; set; }
     [JsonPropertyName("sklep")]
     public Sklep Sklep { get; set; }
     [JsonPropertyName("money")]

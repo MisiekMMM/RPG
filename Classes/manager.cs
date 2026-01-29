@@ -1,5 +1,6 @@
 using System.Net.NetworkInformation;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json.Serialization;
 using Microsoft.Win32.SafeHandles;
 using Terminal.Gui;
 
@@ -28,106 +29,106 @@ public static class Manager
         Focus = new Terminal.Gui.Attribute(Color.Black, Color.White),
     };
     public static List<PrzedmiotSklep> ShopList = new();
-    public static void Save(string path)
-    {
-        using StreamWriter sW = new(path);
+    // public static void Save(string path)
+    // {
+    //     using StreamWriter sW = new(path);
 
-        sW.WriteLine(hero!.name);
-        foreach (var key in hero.Stats)
-        {
-            sW.WriteLine(key.Value);
-        }
-        sW.WriteLine(hero!.health);
-        sW.WriteLine(hero!.maxHealth);
-        sW.WriteLine(hero!.mana);
-        sW.WriteLine(hero!.maxMana);
-        sW.WriteLine(hero!.level);
-        sW.WriteLine(hero!.exp);
-        foreach (Item item in hero!.inventory)
-        {
-            if (item != null)
-            {
-                sW.WriteLine(item.id);
-            }
-            else
-            {
-                sW.WriteLine("-");
-            }
-        }
-        sW.WriteLine(hero!.armor == null ? "-" : hero.armor.id);
-        sW.WriteLine(hero!.weapon == null ? "-" : hero.weapon.id);
-        sW.WriteLine(hero!.rasa!.name);
-        sW.WriteLine(hero!.klasa);//change later
+    //     sW.WriteLine(hero!.name);
+    //     foreach (var key in hero.Stats)
+    //     {
+    //         sW.WriteLine(key.Value);
+    //     }
+    //     sW.WriteLine(hero!.health);
+    //     sW.WriteLine(hero!.maxHealth);
+    //     sW.WriteLine(hero!.mana);
+    //     sW.WriteLine(hero!.maxMana);
+    //     sW.WriteLine(hero!.level);
+    //     sW.WriteLine(hero!.exp);
+    //     foreach (JSONItem item in hero!.inventory)
+    //     {
+    //         if (item != null)
+    //         {
+    //             sW.WriteLine(item.id);
+    //         }
+    //         else
+    //         {
+    //             sW.WriteLine("-");
+    //         }
+    //     }
+    //     sW.WriteLine(hero!.armor == null ? "-" : hero.armor.id);
+    //     sW.WriteLine(hero!.weapon == null ? "-" : hero.weapon.id);
+    //     sW.WriteLine(hero!.rasa!.name);
+    //     sW.WriteLine(hero!.klasa);//change later
 
-        for (int i = 0; i < values.Count; i++)
-        {
-            sW.WriteLine(values[i]);
-        }
-    }
-    public static bool Load(string path)
-    {
-        if (!File.Exists(path))
-        {
-            return false;
-        }
+    //     for (int i = 0; i < values.Count; i++)
+    //     {
+    //         sW.WriteLine(values[i]);
+    //     }
+    // }
+    //     public static bool Load(string path)
+    //     {
+    //         if (!File.Exists(path))
+    //         {
+    //             return false;
+    //         }
 
-        hero = new();
+    //         hero = new();
 
-        using StreamReader sR = new(path);
+    //         using StreamReader sR = new(path);
 
-        hero!.name = sR.ReadLine()!;
-        foreach (var key in hero.Stats)
-        {
-            hero.Stats[key.Key] = int.Parse(sR.ReadLine()!);
-        }
-        hero!.health = int.Parse(sR.ReadLine()!);
-        hero!.maxHealth = int.Parse(sR.ReadLine()!);
-        hero!.mana = int.Parse(sR.ReadLine()!);
-        hero!.maxMana = int.Parse(sR.ReadLine()!);
-        hero!.level = int.Parse(sR.ReadLine()!);
-        hero!.exp = int.Parse(sR.ReadLine()!);
+    //         hero!.name = sR.ReadLine()!;
+    //         foreach (var key in hero.Stats)
+    //         {
+    //             hero.Stats[key.Key] = int.Parse(sR.ReadLine()!);
+    //         }
+    //         hero!.health = int.Parse(sR.ReadLine()!);
+    //         hero!.maxHealth = int.Parse(sR.ReadLine()!);
+    //         hero!.mana = int.Parse(sR.ReadLine()!);
+    //         hero!.maxMana = int.Parse(sR.ReadLine()!);
+    //         hero!.level = int.Parse(sR.ReadLine()!);
+    //         hero!.exp = int.Parse(sR.ReadLine()!);
 
-        for (int i = 0; i < hero.inventory.Length; i++)
-        {
-            string vl = sR.ReadLine()!;
-            if (vl != "-")
-            {
-                hero.inventory[i] = Item.GetItem(int.Parse(vl));
-            }
-            else
-            {
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-                hero.inventory[i] = null;
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
-            }
-        }
-        string rd = sR.ReadLine()!;
-        if (rd != "-")
-        {
-            hero.armor = (Armor)Item.GetItem(int.Parse(rd));
-        }
-        else
-        {
-            hero.armor = null;
-        }
+    //         for (int i = 0; i < hero.inventory.Length; i++)
+    //         {
+    //             string vl = sR.ReadLine()!;
+    //             if (vl != "-")
+    //             {
+    //                 hero.inventory[i] = Item.GetItem(int.Parse(vl));
+    //             }
+    //             else
+    //             {
+    // #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+    //                 hero.inventory[i] = null;
+    // #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+    //             }
+    //         }
+    //         string rd = sR.ReadLine()!;
+    //         if (rd != "-")
+    //         {
+    //             hero.armor = (Armor)Item.GetItem(int.Parse(rd));
+    //         }
+    //         else
+    //         {
+    //             hero.armor = null;
+    //         }
 
-        rd = sR.ReadLine()!;
-        if (rd != "-")
-        {
-            hero.weapon = (Weapon)Item.GetItem(int.Parse(rd));
-        }
-        else
-        {
-            hero.weapon = null;
-        }
-        hero.rasa = races[sR.ReadLine()!];
-        hero.klasa = sR.ReadLine()!;//change later
+    //         rd = sR.ReadLine()!;
+    //         if (rd != "-")
+    //         {
+    //             hero.weapon = (Weapon)Item.GetItem(int.Parse(rd));
+    //         }
+    //         else
+    //         {
+    //             hero.weapon = null;
+    //         }
+    //         hero.rasa = races[sR.ReadLine()!];
+    //         hero.klasa = sR.ReadLine()!;//change later
 
-        for (int i = 0; i < values.Count; i++)
-        {
-            values[i] = int.Parse(sR.ReadLine()!);
-        }
+    //         for (int i = 0; i < values.Count; i++)
+    //         {
+    //             values[i] = int.Parse(sR.ReadLine()!);
+    //         }
 
-        return true;
-    }
+    //         return true;
+    //     }
 }

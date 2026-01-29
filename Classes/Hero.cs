@@ -1,4 +1,6 @@
 using System.Data;
+using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 using Terminal.Gui;
 
 namespace RPG;
@@ -26,26 +28,39 @@ public class Hero
     public int level = 1;
     public int exp = 0;
     public int[] levels = { 0, 0, 25, 30, 30, 35, 40, 40, 45, 50, 55, 60, 61 };
-    public Armor? armor = null;
-    public Weapon? weapon = null;
-    public Item[] inventory = new Item[8];
+    public JSONItem? armor = null;
+    public JSONItem? weapon = null;
+    public JSONItem[] inventory = new JSONItem[8];
     public string klasa = "";
     public Race? rasa;
     public int mana;
     public int maxMana;
     public int money;
 
-    public void UseItem(Item item, int itemID)
+    public async Task UseItem(JSONItem item, int itemID)
     {
         if (item == null)
         {
             return;
         }
-        item.Uzyj();
-        Manager.hero!.inventory[itemID] = null!;
+
+        if (item.Typ == "przedmiot")
+        {
+            item.Uzyj();
+            if (item.Hp != 0)
+                inventory[itemID] = null!;
+        }
+        else if (item.Typ == "zbroja")
+        {
+            await Manager.hero!.ChangeArmor(item, itemID);
+        }
+        else if (item.Typ == "bron")
+        {
+            await Manager.hero!.ChangeWeapon(item, itemID);
+        }
     }
 
-    public async Task GiveItem(Item item)
+    public async Task GiveItem(JSONItem item)
     {
         if (Utils.IsAnyNull(inventory))
         {
@@ -54,7 +69,7 @@ public class Hero
         else
         {
             await Utils.WriteFlavorAsync("Nie masz tyle miejsca w ekwipunku! Wybierz przedmiot, który chcesz wyrzucić.");
-            Manager.inventoryButtons[8].Text = item.name;
+            Manager.inventoryButtons[8].Text = item.Nazwa;
 
             int buttonId = await Utils.WaitForInventoryButtonClickAsync(true);
 
@@ -89,21 +104,55 @@ public class Hero
             exp -= levels[level];
         }
     }
-    public void ChangeArmor(Armor armor)
+    public async Task ChangeArmor(JSONItem armor, int itemID)
     {
-        Stats["defence"] -= this.armor!.defence;
+        JSONItem OldItem = this.armor!;
 
-        this.armor = armor;
+        if (OldItem != null)
+        {
+            Stats["defence"] -= OldItem.Hp;
 
-        Stats["defence"] += this.armor.defence;
+            this.armor = armor;
+
+            Stats["defence"] += this.armor.Hp;
+
+            inventory[itemID] = null!;
+
+            await GiveItem(OldItem);
+        }
+        else
+        {
+            this.armor = armor;
+
+            Stats["defence"] += this.armor.Hp;
+
+            inventory[itemID] = null!;
+        }
     }
-    public void ChangeWeapon(Weapon weapon)
+    public async Task ChangeWeapon(JSONItem weapon, int itemID)
     {
-        Stats["strength"] -= this.weapon!.strength;
+        JSONItem OldWeapon = this.weapon!;
 
-        this.weapon = weapon;
+        if (OldWeapon != null)
+        {
+            Stats["strength"] -= OldWeapon.Hp;
 
-        Stats["strength"] += this.weapon.strength;
+            this.weapon = weapon;
+
+            inventory[itemID] = null!;
+
+            Stats["strength"] += this.weapon.Hp;
+
+            await GiveItem(OldWeapon);
+        }
+        else
+        {
+            this.weapon = weapon;
+
+            inventory[itemID] = null!;
+
+            Stats["strength"] += this.weapon.Hp;
+        }
     }
     public void ChangeMana(int mana)
     {
