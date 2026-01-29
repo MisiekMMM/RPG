@@ -13,10 +13,10 @@
     "walka": {
         "przeciwnicy": [
             {
-                "nazwa": "Wilk",
-                "hp": 45,
-                "atak": 15,
-                "opis": "Samotny wilk. Prawdopodobnie został wypędzony z grupy."
+                "nazwa": "",
+                "hp": 0,
+                "atak": 0,
+                "opis": ""
             }
         ]
     },

@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Reflection.Metadata;
 using Terminal.Gui;
 
 namespace RPG;
@@ -104,34 +105,39 @@ public static class Utils
     public static async Task<int> WaitForInventoryButtonClickAsync(bool showNew = false)
     {
         WaitingForInventoryClick = true;
+
         if (showNew)
-        {
             Manager.inventoryButtons[8].Visible = true;
-        }
 
-        var tcs = new TaskCompletionSource<bool>();
-
-        int buttonId = 0;
+        var tcs = new TaskCompletionSource<int>();
 
         for (int i = 0; i < Manager.inventoryButtons.Count; i++)
         {
-            Button button = Manager.inventoryButtons[i];
+            int index = i; // 🔑 kluczowe
 
-            EventHandler<CommandEventArgs> handler = null!;
-            handler = (object? sender, CommandEventArgs args) =>
+            Button button = Manager.inventoryButtons[index];
+
+            EventHandler<CommandEventArgs>? handler = null;
+            handler = (sender, args) =>
             {
-                button.Accepting -= handler; // poprawne zdarzenie: Accepted
-                buttonId = i;
-                tcs.SetResult(true);
+                // odpinamy WSZYSTKIE handlery
+                foreach (var b in Manager.inventoryButtons)
+                    b.Accepting -= handler;
+
+                tcs.TrySetResult(index);
             };
 
             button.Accepting += handler;
         }
-        await tcs.Task;
+
+        int result = await tcs.Task;
+
         WaitingForInventoryClick = false;
         Manager.inventoryButtons[8].Visible = false;
-        return buttonId;
+
+        return result;
     }
+
     public static async Task WaitForButtonClickAsync(Button button)
     {
         var tcs = new TaskCompletionSource<bool>();

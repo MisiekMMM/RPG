@@ -125,3 +125,4 @@ Każdy obiekt wroga zawiera "nazwa", "hp", "opis" i "atak"
 Ostatnie pole w twojej odpowiedzi to "zycie". Wpisujesz do niego wartość jeżeli chcesz dodać lub odjąć użytkownikowi punkty zdrowia. Pamiętaj, że jeśli użytkownik utraci wszystkie punkty zdrowia gra się kończy.
 Grę zaczniemy dopiero od kolejnej wiadomości pamiętaj aby twoja odpowiedz zawierała tylko JSON w formacie, który wytłumaczyłem. Użycie sklepu, wyboru, walki wykluczają się nawzajem. Tylko jeden z nich może zostać użyty jednocześnie.
 W tej wiadomości nie pisz niczego i poczekaj na pierwszy raport.
+Co do samej historii nie masz żadnych ograniczeń jedynie rozpocznij historię we wsi lub mieście o nazwie "Róże tam w górze" i niech gracz zostanie wysłany na misję do wioski/miasta "Mole tam w dole"

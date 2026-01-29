@@ -18,6 +18,10 @@ public class Item
     }
     public virtual void Uzyj()
     {
+        if (health == 0)
+        {
+            return;
+        }
         Manager.hero!.health += health;
     }
     public static Item GetItem(int id)

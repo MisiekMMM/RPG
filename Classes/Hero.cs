@@ -1,4 +1,5 @@
 using System.Data;
+using Terminal.Gui;
 
 namespace RPG;
 
@@ -34,6 +35,16 @@ public class Hero
     public int maxMana;
     public int money;
 
+    public void UseItem(Item item, int itemID)
+    {
+        if (item == null)
+        {
+            return;
+        }
+        item.Uzyj();
+        Manager.hero!.inventory[itemID] = null!;
+    }
+
     public async Task GiveItem(Item item)
     {
         if (Utils.IsAnyNull(inventory))
@@ -42,12 +53,14 @@ public class Hero
         }
         else
         {
-            await Utils.WriteFlavorAsync("No inventory space available!");
+            await Utils.WriteFlavorAsync("Nie masz tyle miejsca w ekwipunku! Wybierz przedmiot, który chcesz wyrzucić.");
             Manager.inventoryButtons[8].Text = item.name;
 
             int buttonId = await Utils.WaitForInventoryButtonClickAsync(true);
 
-            if (buttonId == 8)
+            MessageBox.Query("Info", buttonId.ToString(), "ok");
+
+            if (buttonId == 9)
             {
                 return;
             }

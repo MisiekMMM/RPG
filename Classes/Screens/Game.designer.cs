@@ -51,6 +51,10 @@ public partial class Game : Window
     Label ItemHP = new();
     Label ItemDescription = new();
     Button BtnItemBuy = new();
+
+    Button BtnUse = new();
+    Button BtnDrop = new();
+    Button BtnItemInfo = new();
     void Init()
     {
         Width = Dim.Fill();
@@ -155,7 +159,7 @@ public partial class Game : Window
         DownPanel.SetBorderStyle(LineStyle.Rounded);
         DownPanel.X = Pos.Percent(20);
         DownPanel.Y = Pos.Percent(70);
-        DownPanel.Add(cmbWybor, lblFlavor, nextButton);
+        DownPanel.Add(cmbWybor, lblFlavor, nextButton, BtnDrop, BtnItemInfo, BtnUse);
 
         RightPanel.Width = Dim.Percent(20);
         RightPanel.Height = Dim.Fill();
@@ -190,6 +194,21 @@ public partial class Game : Window
         lblFlavor.X = 0;
         lblFlavor.Y = 0;
         lblFlavor.Text = "Press [>>>] to continue with the story";
+
+        BtnUse.Text = "Użyj";
+        BtnUse.Y = Pos.Bottom(lblFlavor);
+        BtnUse.X = Pos.Percent(25);
+        BtnUse.Visible = false;
+
+        BtnDrop.Text = "Upuść";
+        BtnDrop.Y = Pos.Bottom(lblFlavor);
+        BtnDrop.X = Pos.Percent(50);
+        BtnDrop.Visible = false;
+
+        BtnItemInfo.Text = "Info";
+        BtnItemInfo.Y = Pos.Bottom(lblFlavor);
+        BtnItemInfo.X = Pos.Percent(75);
+        BtnItemInfo.Visible = false;
 
         cmbWybor.Y = Pos.Bottom(lblFlavor);
         cmbWybor.X = Pos.Center();

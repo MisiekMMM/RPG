@@ -1,7 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices.JavaScript;
-using System.Runtime.Serialization;
-using Newtonsoft.Json.Serialization;
 using Terminal.Gui;
 
 namespace RPG;
@@ -10,6 +7,8 @@ public partial class Game
 {
     public Task Initialization { get; }
     public bool CanClickBuy = true;
+    public List<Item> UzytePrzedmioty = new();
+    public List<Item> ZakupionePrzedmioty = new();
 
     public Game()
     {
@@ -70,7 +69,7 @@ public partial class Game
 
         await Utils.WriteAsync("Nigger");
 
-        JSONReport json = new("", new(), true, new(), stats, Manager.hero!.inventory.ToList());
+        JSONReport json = new("", UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList());
 
         while (true)
         {
@@ -80,7 +79,7 @@ public partial class Game
             string responseJson = File.ReadAllText(@"response.txt");//await AiManager.Generate(serialized);//
 
             Response response = Response.SetValuesFromJson(responseJson);
-
+            //
             await Utils.WriteAsync(response.Historia);
 
             Manager.hero.money += response.Money;
@@ -130,8 +129,10 @@ public partial class Game
 
                 cmbWybor.Visible = false;
 
+                await ShowItemUsageButtons();
+
                 stats.GetStatsFromHero(Manager.hero!);
-                json = new(cmbWybor.Text, new(), true, new(), stats, Manager.hero!.inventory.ToList());
+                json = new(cmbWybor.Text, UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList());
 
                 continue;
             }
@@ -158,19 +159,133 @@ public partial class Game
                 MiddlePanel.Visible = true;
                 ShopMiddlePanel.Visible = false;
 
+                await ShowItemUsageButtons();
+
                 stats.GetStatsFromHero(Manager.hero!);
-                json = new(cmbWybor.Text, new(), true, new(), stats, Manager.hero!.inventory.ToList());
+                json = new(cmbWybor.Text, UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList());
+
+
 
                 continue;
             }
 
             //Add battling here
+
+            await Utils.WriteFlavorAsync("Press [>>>] to continue with the story");
+            await ShowItemUsageButtons();
+
             stats.GetStatsFromHero(Manager.hero!);
-            json = new("", new(), true, new(), stats, Manager.hero!.inventory.ToList());
+            json = new("", UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList());
+
 
             continue;
 
         }
+    }
+    async Task ShowItemUsageButtons()
+    {
+        BtnDrop.Visible = true;
+        BtnItemInfo.Visible = true;
+        BtnUse.Visible = true;
+
+        EventHandler<CommandEventArgs> InfoHandler =
+        async (object? sender, CommandEventArgs args) =>
+        {
+            nextButton.Visible = false;
+
+            await Utils.WriteFlavorAsync("Wybierz przedmiot, który chcesz sprawdzić.");
+
+            int buttonID = await Utils.WaitForInventoryButtonClickAsync();
+
+            if (Manager.hero!.inventory[buttonID] != null)
+            {
+                BtnDrop.Visible = false;
+                BtnItemInfo.Visible = false;
+                BtnUse.Visible = false;
+
+                Item item = Manager.hero!.inventory[buttonID];
+                if (Manager.hero!.inventory[buttonID].GetType() == typeof(Weapon))
+                    await Utils.WriteFlavorAsync($"{item.name}: Broń atk:{item.health}");
+                else if (Manager.hero!.inventory[buttonID].GetType() == typeof(Armor))
+                    await Utils.WriteFlavorAsync($"{item.name}: Zbroja def:{item.health}");
+                else
+                    await Utils.WriteFlavorAsync($"{item.name}: Item HP:{item.health}");
+
+                BtnDrop.Visible = true;
+                BtnItemInfo.Visible = true;
+                BtnUse.Visible = true;
+            }
+
+            nextButton.Visible = true;
+        };
+
+        EventHandler<CommandEventArgs> DropHandler =
+        async (object? sender, CommandEventArgs args) =>
+        {
+            BtnDrop.Visible = false;
+            BtnItemInfo.Visible = false;
+            BtnUse.Visible = false;
+            nextButton.Visible = false;
+
+            await Utils.WriteFlavorAsync("Wybierz przedmiot, który chcesz wyrzucić.");
+
+            int buttonID = await Utils.WaitForInventoryButtonClickAsync();
+
+            if (Manager.hero!.inventory[buttonID] != null)
+            {
+                await Utils.WriteFlavorAsync($"Wyrzucasz {Manager.hero!.inventory[buttonID].name}");
+
+                Manager.hero!.inventory[buttonID] = null!;
+
+                Update();
+            }
+
+            nextButton.Visible = true;
+            BtnDrop.Visible = true;
+            BtnItemInfo.Visible = true;
+            BtnUse.Visible = true;
+        };
+
+
+        EventHandler<CommandEventArgs> UseHandler =
+        async (object? sender, CommandEventArgs args) =>
+        {
+            BtnDrop.Visible = false;
+            BtnItemInfo.Visible = false;
+            BtnUse.Visible = false;
+            nextButton.Visible = false;
+
+            await Utils.WriteFlavorAsync("Wybierz przedmiot, który chcesz użyć.");
+
+            int buttonID = await Utils.WaitForInventoryButtonClickAsync();
+
+            if (Manager.hero!.inventory[buttonID] != null)
+            {
+                await Utils.WriteFlavorAsync($"Używasz {Manager.hero!.inventory[buttonID].name}");
+            }
+
+            UzytePrzedmioty.Add(Manager.hero!.inventory[buttonID]);
+
+            Manager.hero!.UseItem(Manager.hero!.inventory[buttonID], buttonID);
+
+            Update();
+
+            nextButton.Visible = true;
+            BtnDrop.Visible = true;
+            BtnItemInfo.Visible = true;
+            BtnUse.Visible = true;
+        };
+
+
+        BtnUse.Accepting += UseHandler;
+        BtnDrop.Accepting += DropHandler;
+        BtnItemInfo.Accepting += InfoHandler;
+
+        await Utils.WaitForButtonClickAsync(nextButton);
+
+        BtnDrop.Visible = false;
+        BtnItemInfo.Visible = false;
+        BtnUse.Visible = false;
     }
     void UpdateShopItemDetails(object sender, ListViewItemEventArgs e)
     {
@@ -192,6 +307,9 @@ public partial class Game
         CanClickBuy = false;
 
         PrzedmiotSklep item = Manager.ShopList[ShopItemsListView.SelectedItem];
+
+        ZakupionePrzedmioty.Add(item.Przedmiot.ConvertIntoItem());
+
         if (Manager.hero!.money >= item.cena)
         {
             Manager.hero.money -= item.cena;

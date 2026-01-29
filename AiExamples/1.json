@@ -1,8 +1,8 @@
 {
-    "historia": "Deszcz pada od trzech dni, a woda spływa po kamieniach jakby miasto powoli topniało. Gdy spotykacie się w karczmie „Pod Złamanym Rogiem”, drzwi otwierają się same, choć nikt ich nie dotyka. Do środka wpełza chłód… a wraz z nim szept twojego imienia, wypowiedziany głosem, który nie powinien już istnieć.",
+    "historia": "",
     "wybor": {
         "pytanie": "Co robisz?",
-        "opcje": ["Rozglądam się","Wołam o pomoc"]
+        "opcje": ["", ""]
     },
     "przedmioty":[],
     "money": 0,

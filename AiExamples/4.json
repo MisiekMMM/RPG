@@ -31,10 +31,10 @@
                 "cena": 15,
                 "przedmiot": {
                     "typ": "zbroja",
-                    "nazwa": "Kaptur czerwonego mnicha",
+                    "nazwa": "",
                     "hp": 5
                 },
-                "opis": "Nie posłuży ci jako pancerz, ale świetnie się nada na przebranie na terytorium czerwonych."
+                "opis": ""
             }
         ]
     },

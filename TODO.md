@@ -1,3 +1,1 @@
--- Use items, drop items, check items at the end of the turn
 -- battle
--- Fix give item drop new item error out of index bounds
