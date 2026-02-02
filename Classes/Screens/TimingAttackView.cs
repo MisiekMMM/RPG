@@ -6,6 +6,8 @@ public class TimingAttackView : View
     bool finished;
     Timer timer;
 
+    public TaskCompletionSource tcs = new();
+
     Label bar;
     Label info;
 
@@ -52,9 +54,33 @@ public class TimingAttackView : View
             KeyDown -= OnKeyDown;
             info.Text = "MISSED (0%)";
             AttackStrength = 0f;
+            tcs.TrySetResult();
         }
 
         Application.Invoke(DrawBar);
+    }
+
+    public void Restart()
+    {
+        tcs = new();
+        // Stop old timer if it exists
+        timer?.Dispose();
+
+        // Reset state
+        progress = 0f;
+        finished = false;
+        AttackStrength = 0f;
+
+        // Reset UI
+        info.Text = "Press SPACE at the center!";
+        bar.Text = "";
+
+        // Reattach input
+        KeyDown -= OnKeyDown; // avoid double subscription
+        KeyDown += OnKeyDown;
+
+        // Restart timer
+        timer = new Timer(_ => Tick(), null, 0, 16);
     }
 
     void DrawBar()
@@ -68,7 +94,7 @@ public class TimingAttackView : View
         bar.Text = $"[{new string(chars)}]";
     }
 
-    void OnKeyDown(object? sender, Key e)
+    async void OnKeyDown(object? sender, Key e)
     {
         if (e.KeyCode == KeyCode.Space && !finished)
         {
@@ -81,6 +107,10 @@ public class TimingAttackView : View
 
             info.Text = $"ATTACK! {percent}%";
             e.Handled = true;
+
+            await Task.Delay(2000);
+
+            tcs.SetResult();
         }
     }
 }

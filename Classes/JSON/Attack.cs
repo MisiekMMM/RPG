@@ -6,25 +6,23 @@ namespace RPG;
 public enum AttackType
 {
     Physical,
-    Magical,
-    Healing,
-    Fire,
-    Poison,
+    Magic,
+    Healing
 }
 
-public class Atak
+public class Attack
 {
     [JsonPropertyName("nazwa")]
     public string Nazwa { get; set; } = "";
 
     [JsonPropertyName("typ")]
-    public string Typ { get; set; } = "";
+    public Element AttackElement { get; set; }
 
     [JsonPropertyName("min")]
-    private int MinStrength { get; }
+    public int MinStrength { get; set; }
     [JsonPropertyName("max")]
-    private int MaxStrength { get; }
-
+    public int MaxStrength { get; set; }
+    [JsonPropertyName("attackType")]
     public AttackType attackType;
 
     public int GetAttackStrength()

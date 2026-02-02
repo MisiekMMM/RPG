@@ -28,16 +28,17 @@ public class Hero
     public int level = 1;
     public int exp = 0;
     public int[] levels = { 0, 0, 25, 30, 30, 35, 40, 40, 45, 50, 55, 60, 61 };
-    public JSONItem? armor = null;
-    public JSONItem? weapon = null;
-    public JSONItem[] inventory = new JSONItem[8];
+    public Item? armor = null;
+    public Item? weapon = null;
+    public Item[] inventory = new Item[8];
+    public List<Attack> AttackList = new();
     public string klasa = "";
     public Race? rasa;
     public int mana;
     public int maxMana;
     public int money;
 
-    public async Task UseItem(JSONItem item, int itemID)
+    public async Task UseItem(Item item, int itemID)
     {
         if (item == null)
         {
@@ -60,7 +61,7 @@ public class Hero
         }
     }
 
-    public async Task GiveItem(JSONItem item)
+    public async Task GiveItem(Item item)
     {
         if (Utils.IsAnyNull(inventory))
         {
@@ -104,9 +105,9 @@ public class Hero
             exp -= levels[level];
         }
     }
-    public async Task ChangeArmor(JSONItem armor, int itemID)
+    public async Task ChangeArmor(Item armor, int itemID)
     {
-        JSONItem OldItem = this.armor!;
+        Item OldItem = this.armor!;
 
         if (OldItem != null)
         {
@@ -129,9 +130,9 @@ public class Hero
             inventory[itemID] = null!;
         }
     }
-    public async Task ChangeWeapon(JSONItem weapon, int itemID)
+    public async Task ChangeWeapon(Item weapon, int itemID)
     {
-        JSONItem OldWeapon = this.weapon!;
+        Item OldWeapon = this.weapon!;
 
         if (OldWeapon != null)
         {

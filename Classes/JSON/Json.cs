@@ -15,7 +15,7 @@ public class JSONReport
 
     [JsonPropertyName("przedmioty")]
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public List<JSONItem> Przedmioty { get; set; }
+    public List<Item> Przedmioty { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
     [JsonPropertyName("wygranoWalke")]
@@ -23,7 +23,7 @@ public class JSONReport
 
     [JsonPropertyName("zakupionePrzedmioty")]
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public List<JSONItem> ZakupionePrzedmioty { get; set; }
+    public List<Item> ZakupionePrzedmioty { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
     [JsonPropertyName("statystyki")]
@@ -33,16 +33,16 @@ public class JSONReport
 
     [JsonPropertyName("ekwipunek")]
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public List<JSONItem> Ekwipunek { get; set; }
+    public List<Item> Ekwipunek { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public JSONReport(string Wybor, List<JSONItem> Przedmioty, bool wygranoWalke, List<JSONItem> ZakupionePrzedmioty, Statystyki statystyki, List<JSONItem> Ekwipunek)
+    public JSONReport(string Wybor, List<Item> Przedmioty, bool wygranoWalke, List<Item> ZakupionePrzedmioty, Statystyki statystyki, List<Item> Ekwipunek)
     {
 
         this.Wybor = Wybor;
 
         this.Przedmioty = new();
 
-        foreach (JSONItem item in Przedmioty)
+        foreach (Item item in Przedmioty)
         {
             this.Przedmioty.Add(item);
         }
@@ -50,7 +50,7 @@ public class JSONReport
         this.WygranoWalke = wygranoWalke;
 
         this.ZakupionePrzedmioty = new();
-        foreach (JSONItem item in ZakupionePrzedmioty)
+        foreach (Item item in ZakupionePrzedmioty)
         {
             this.ZakupionePrzedmioty.Add(item);
         }
@@ -58,7 +58,7 @@ public class JSONReport
         this.Statystyki = statystyki;
 
         this.Ekwipunek = new();
-        foreach (JSONItem item in Ekwipunek)
+        foreach (Item item in Ekwipunek)
         {
             if (item != null)
             {

@@ -28,7 +28,7 @@ public static class Program
 
         Application.Init();
 
-        //Application.Run(new TempBattle());
+        //Application.Run(new NewScreen());
 
         //Application.Run(new Login());
         //Application.Run(new Menu());

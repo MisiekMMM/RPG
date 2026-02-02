@@ -2,7 +2,6 @@ D:\Projekty\C#\RPG\bin\Release\net9.0\win-x64\RPG.exe
 D:\Projekty\C#\RPG\bin\Release\net9.0\win-x64\RPG.deps.json
 D:\Projekty\C#\RPG\bin\Release\net9.0\win-x64\RPG.runtimeconfig.json
 D:\Projekty\C#\RPG\bin\Release\net9.0\win-x64\RPG.dll
-D:\Projekty\C#\RPG\bin\Release\net9.0\win-x64\RPG.pdb
 D:\Projekty\C#\RPG\bin\Release\net9.0\win-x64\ColorHelper.dll
 D:\Projekty\C#\RPG\bin\Release\net9.0\win-x64\Humanizer.dll
 D:\Projekty\C#\RPG\bin\Release\net9.0\win-x64\JetBrains.Annotations.dll
@@ -303,6 +302,7 @@ D:\Projekty\C#\RPG\obj\Release\net9.0\win-x64\RPG.csproj.CoreCompileInputs.cache
 D:\Projekty\C#\RPG\obj\Release\net9.0\win-x64\RPG.csproj.Up2Date
 D:\Projekty\C#\RPG\obj\Release\net9.0\win-x64\RPG.dll
 D:\Projekty\C#\RPG\obj\Release\net9.0\win-x64\refint\RPG.dll
-D:\Projekty\C#\RPG\obj\Release\net9.0\win-x64\RPG.pdb
 D:\Projekty\C#\RPG\obj\Release\net9.0\win-x64\RPG.genruntimeconfig.cache
 D:\Projekty\C#\RPG\obj\Release\net9.0\win-x64\ref\RPG.dll
+D:\Projekty\C#\RPG\bin\Release\net9.0\win-x64\LlmTornado.dll
+D:\Projekty\C#\RPG\bin\Release\net9.0\win-x64\Newtonsoft.Json.dll

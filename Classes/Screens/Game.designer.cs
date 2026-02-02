@@ -12,6 +12,14 @@ public partial class Game : Window
 
     FrameView ShopMiddlePanel = new();
 
+    TabView SpellPanel = new();
+
+    List<Tab> SpellTabs = new();
+    List<Button> SpellButtons = new();
+
+    FrameView BattleMiddlePanel = new();
+    FrameView BattleDownPanel = new();
+
     Label lblName = new();
     Label lblLevel = new();
     Label lblMoney = new();
@@ -55,6 +63,19 @@ public partial class Game : Window
     Button BtnUse = new();
     Button BtnDrop = new();
     Button BtnItemInfo = new();
+
+    ListView EnemiesListView = new();
+    FrameView EnemyDetails = new();
+    Label FightStoryLabel = new();
+    Label EnemyNameHp = new();
+    Label EnemyDescription = new();
+    Button BtnFightUse = new();
+    Button BtnFightAttack = new();
+    Button BtnFightSpell = new();
+    Label FightFlavorLabel = new();
+    Button FightNextButton = new();
+
+    TimingAttackView FightTimingAttackView = new();
     void Init()
     {
         Width = Dim.Fill();
@@ -68,7 +89,7 @@ public partial class Game : Window
         LeftPanel.SetBorderStyle(LineStyle.Rounded);
         LeftPanel.X = Pos.Percent(0);
         LeftPanel.Y = 0;
-        LeftPanel.Add(lblName, lblLevel, lblRaceClass, lblStats, lblMoney);
+        LeftPanel.Add(lblName, lblLevel, lblRaceClass, lblStats, lblMoney, SpellPanel);
 
         MiddlePanel.Width = Dim.Percent(60);
         MiddlePanel.Height = Dim.Percent(70);
@@ -153,7 +174,6 @@ public partial class Game : Window
         lblStory.Text = "Press [>>>] to continue with the story";
         lblStory.TextAlignment = Alignment.Center;
 
-
         DownPanel.Width = Dim.Percent(60);
         DownPanel.Height = Dim.Percent(30);
         DownPanel.SetBorderStyle(LineStyle.Rounded);
@@ -169,11 +189,11 @@ public partial class Game : Window
         RightPanel.Add(lblArmor, lblWeapon, item1, item2, item3, item4, item5, item6, item7, item8, itemNew, lblHP);
 
         lblName.X = Pos.Center();
-        lblName.Y = Pos.Percent(10);
+        lblName.Y = 0;
         lblName.Text = "Name";
 
         lblLevel.X = Pos.Center();
-        lblLevel.Y = Pos.Percent(13);
+        lblLevel.Y = Pos.Bottom(lblName);
         lblLevel.Text = "Level";
 
         lblMoney.X = Pos.Center();
@@ -181,13 +201,21 @@ public partial class Game : Window
         lblMoney.Text = "0 $";
 
         lblRaceClass.X = Pos.Center();
-        lblRaceClass.Y = Pos.Percent(16);
+        lblRaceClass.Y = Pos.Bottom(lblLevel);
         lblRaceClass.Text = "Rasa - Klasa";
 
         lblStats.X = Pos.Center();
-        lblStats.Y = Pos.Bottom(lblRaceClass) + 3;
+        lblStats.Y = Pos.Bottom(lblMoney);
         lblStats.Height = 14;
         lblStats.Text = "Statystyki:\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----\n--:----";
+
+        SpellPanel.Width = Dim.Fill();
+        SpellPanel.Height = Dim.Fill();//Dim.Percent(40);
+        SpellPanel.X = 0;
+        SpellPanel.Y = Pos.Bottom(lblStats);
+        SpellPanel.BorderStyle = LineStyle.Double;
+        SpellPanel.Title = "Spells";
+
 
         lblFlavor.Width = Dim.Fill();
         lblFlavor.Height = 2;
@@ -266,6 +294,94 @@ public partial class Game : Window
         lblHP.Y = Pos.Bottom(item8) + 3;
         lblHP.Text = "HP: 100/100";
 
-        Add(LeftPanel, MiddlePanel, DownPanel, RightPanel, ShopMiddlePanel);
+        BattleMiddlePanel.Width = Dim.Percent(60);
+        BattleMiddlePanel.Height = Dim.Percent(70);
+        BattleMiddlePanel.SetBorderStyle(LineStyle.Rounded);
+        BattleMiddlePanel.X = Pos.Percent(20);
+        BattleMiddlePanel.Y = Pos.Percent(0);
+        BattleMiddlePanel.Add(EnemiesListView, EnemyDetails, FightStoryLabel);
+
+        BattleMiddlePanel.Visible = false;
+
+        BattleDownPanel.Width = Dim.Percent(60);
+        BattleDownPanel.Height = Dim.Percent(30);
+        BattleDownPanel.SetBorderStyle(LineStyle.Rounded);
+        BattleDownPanel.X = Pos.Percent(20);
+        BattleDownPanel.Y = Pos.Percent(70);
+        BattleDownPanel.Add(BtnFightAttack, BtnFightSpell, BtnFightUse, FightFlavorLabel, FightTimingAttackView, FightNextButton);
+
+        BattleDownPanel.Visible = false;
+
+        FightTimingAttackView.Visible = false;
+        FightTimingAttackView.X = Pos.Center();
+        FightTimingAttackView.Y = 0;
+        FightTimingAttackView.Width = Dim.Fill();
+        FightTimingAttackView.Height = Dim.Fill();
+
+        FightFlavorLabel.Width = Dim.Fill();
+        FightFlavorLabel.Height = Dim.Fill(3);
+        FightFlavorLabel.X = 0;
+        FightFlavorLabel.Y = 0;
+        FightFlavorLabel.Text = "Wybierz czynność:";
+
+        BtnFightAttack.Text = "Atak";
+        BtnFightAttack.Y = Pos.Bottom(FightFlavorLabel);
+        BtnFightAttack.X = Pos.Percent(25);
+
+        BtnFightSpell.Text = "Zaklęcie";
+        BtnFightSpell.Y = Pos.Bottom(FightFlavorLabel);
+        BtnFightSpell.X = Pos.Percent(50);
+
+        BtnFightUse.Text = "Przedmiot";
+        BtnFightUse.Y = Pos.Bottom(FightFlavorLabel);
+        BtnFightUse.X = Pos.Percent(75);
+
+        FightNextButton.X = Pos.Center();
+        FightNextButton.Y = Pos.Percent(100) - 1;
+        FightNextButton.Text = ">>>";
+        FightNextButton.Visible = false;
+
+        EnemiesListView.Title = "Przeciwnicy";
+        EnemiesListView.X = 0;
+        EnemiesListView.Y = Pos.Percent(50);
+        EnemiesListView.Width = Dim.Percent(30);
+        EnemiesListView.Height = Dim.Percent(50);
+        EnemiesListView.AllowsMarking = false;
+        EnemiesListView.AllowsMultipleSelection = false;
+        EnemiesListView.BorderStyle = LineStyle.Dotted;
+        EnemiesListView.Arrangement = ViewArrangement.Fixed;
+        EnemiesListView.VerticalScrollBar.AutoShow = true;
+        EnemiesListView.SelectedItemChanged += UpdateEnemyDetails;
+
+        EnemyDetails.Width = Dim.Percent(70);
+        EnemyDetails.Height = Dim.Percent(50);
+        EnemyDetails.Title = "Informacje";
+        EnemyDetails.X = Pos.Percent(30);
+        EnemyDetails.Y = Pos.Percent(50);
+        EnemyDetails.Add(EnemyNameHp, EnemyDescription);
+
+        EnemyNameHp.Width = Dim.Fill();
+        EnemyNameHp.Height = Dim.Percent(25);
+        EnemyNameHp.X = 0;
+        EnemyNameHp.Y = 0;
+
+        EnemyDescription.Width = Dim.Fill();
+        EnemyDescription.Height = Dim.Percent(75);
+        EnemyDescription.X = 0;
+        EnemyDescription.Y = Pos.Bottom(EnemyNameHp);
+
+        Add(LeftPanel, MiddlePanel, DownPanel, RightPanel, ShopMiddlePanel, BattleDownPanel, BattleMiddlePanel);
+    }
+
+    private Label CreateLabel(string txt)
+    {
+        return new Label
+        {
+            Width = Dim.Fill(),
+            Height = Dim.Fill(),
+            X = Pos.Center(),
+            Y = Pos.Center(),
+            Text = txt
+        };
     }
 }

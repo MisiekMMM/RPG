@@ -8,5 +8,5 @@ public class PrzedmiotSklep
     [JsonPropertyName("opis")]
     public string Opis { get; set; } = "";
     [JsonPropertyName("przedmiot")]
-    public JSONItem Przedmiot { get; set; } = new("", "", 0);
+    public Item Przedmiot { get; set; } = new("", "", 0);
 }

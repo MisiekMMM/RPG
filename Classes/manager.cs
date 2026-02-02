@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
@@ -15,8 +16,11 @@ public static class Manager
     public static Hero? hero;
     public static int saveId = 0;
     public static Label ShopTalkLabel = new();
+    public static Label FightFlavorLabel = new();
     public static List<int> values = new();
     public static List<Button> inventoryButtons = new();
+
+    public static Button FightNextButton = new();
     public static Dictionary<string, Race> races = new()
     {
         {"Człowiek", new("Człowiek", 10,10,5,5,5,10,0,0,0,-10, 180)},
@@ -29,6 +33,8 @@ public static class Manager
         Focus = new Terminal.Gui.Attribute(Color.Black, Color.White),
     };
     public static List<PrzedmiotSklep> ShopList = new();
+    public static List<Enemy> EnemyList = new();
+    public static Label FightStoryLabel = new();
     // public static void Save(string path)
     // {
     //     using StreamWriter sW = new(path);
