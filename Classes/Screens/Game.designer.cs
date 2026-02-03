@@ -34,6 +34,7 @@ public partial class Game : Window
     Label lblWeapon = new();
     Label lblArmor = new();
     Label lblHP = new();
+    Label lblMana = new();
 
     Button item1 = new();
     Button item2 = new();
@@ -186,7 +187,7 @@ public partial class Game : Window
         RightPanel.SetBorderStyle(LineStyle.Rounded);
         RightPanel.X = Pos.Percent(80);
         RightPanel.Y = Pos.Percent(0);
-        RightPanel.Add(lblArmor, lblWeapon, item1, item2, item3, item4, item5, item6, item7, item8, itemNew, lblHP);
+        RightPanel.Add(lblArmor, lblWeapon, item1, item2, item3, item4, item5, item6, item7, item8, itemNew, lblHP, lblMana);
 
         lblName.X = Pos.Center();
         lblName.Y = 0;
@@ -293,6 +294,10 @@ public partial class Game : Window
         lblHP.X = Pos.Center();
         lblHP.Y = Pos.Bottom(item8) + 3;
         lblHP.Text = "HP: 100/100";
+
+        lblMana.X = Pos.Center();
+        lblMana.Y = Pos.Top(lblHP) - 2;
+        lblMana.Text = "Mana: 20/20";
 
         BattleMiddlePanel.Width = Dim.Percent(60);
         BattleMiddlePanel.Height = Dim.Percent(70);

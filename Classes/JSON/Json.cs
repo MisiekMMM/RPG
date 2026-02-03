@@ -35,7 +35,10 @@ public class JSONReport
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     public List<Item> Ekwipunek { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public JSONReport(string Wybor, List<Item> Przedmioty, bool wygranoWalke, List<Item> ZakupionePrzedmioty, Statystyki statystyki, List<Item> Ekwipunek)
+
+    [JsonPropertyName("zaklecia")]
+    public List<Attack> Spells { get; set; } = [];
+    public JSONReport(string Wybor, List<Item> Przedmioty, bool wygranoWalke, List<Item> ZakupionePrzedmioty, Statystyki statystyki, List<Item> Ekwipunek, List<Attack> SpellList)
     {
 
         this.Wybor = Wybor;
@@ -65,6 +68,8 @@ public class JSONReport
                 this.Ekwipunek.Add(item);
             }
         }
+
+        this.Spells = SpellList;
     }
 
     public static string Serialize(JSONReport obj)
@@ -72,7 +77,8 @@ public class JSONReport
 
         var options = new JsonSerializerOptions
         {
-            WriteIndented = true
+            WriteIndented = true,
+            Converters = { new JsonStringEnumConverter() }
         };
 
         string json = JsonSerializer.Serialize(obj, options);

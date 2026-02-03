@@ -42,5 +42,15 @@
             "nazwa": "",
             "hp": 0
         }
+    ],
+    "zaklecia": [
+        {
+            "nazwa": "",
+            "typ": "",
+            "min": 0,
+            "max": 0,
+            "attackType": "",
+            "mana": 0
+        }
     ]
 }

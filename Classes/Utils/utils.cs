@@ -135,7 +135,7 @@ public static class Utils
             await Task.Delay(typeRate); // Waits 1 second without blocking the thread
         }
     }
-    public static async Task<int> WaitForInventoryButtonClickAsync(bool showNew = false)
+    public static async Task<int> WaitForInventoryButtonClickAsync(bool showNew = false, bool checkSpells = false)
     {
         WaitingForInventoryClick = true;
 
@@ -143,24 +143,47 @@ public static class Utils
             Manager.inventoryButtons[8].Visible = true;
 
         var tcs = new TaskCompletionSource<int>();
+        var handlers = new List<(Button btn, EventHandler<CommandEventArgs> handler)>();
 
+        void Cleanup()
+        {
+            foreach (var (btn, handler) in handlers)
+                btn.Accepting -= handler;
+        }
+
+        // Inventory buttons
         for (int i = 0; i < Manager.inventoryButtons.Count; i++)
         {
-            int index = i; // 🔑 kluczowe
+            int index = i;
+            var button = Manager.inventoryButtons[index];
 
-            Button button = Manager.inventoryButtons[index];
-
-            EventHandler<CommandEventArgs>? handler = null;
-            handler = (sender, args) =>
+            EventHandler<CommandEventArgs> handler = (s, e) =>
             {
-                // odpinamy WSZYSTKIE handlery
-                foreach (var b in Manager.inventoryButtons)
-                    b.Accepting -= handler;
-
+                Cleanup();
                 tcs.TrySetResult(index);
             };
 
+            handlers.Add((button, handler));
             button.Accepting += handler;
+        }
+
+        // Spell buttons
+        if (checkSpells)
+        {
+            for (int i = 0; i < Manager.spellButtons.Count; i++)
+            {
+                int index = i;
+                var button = Manager.spellButtons[index];
+
+                EventHandler<CommandEventArgs> handler = (s, e) =>
+                {
+                    Cleanup();
+                    tcs.TrySetResult(-(index + 1));
+                };
+
+                handlers.Add((button, handler));
+                button.Accepting += handler;
+            }
         }
 
         int result = await tcs.Task;
@@ -170,7 +193,8 @@ public static class Utils
 
         return result;
     }
-    public static async Task<int> WaitForFightButtonAsync(List<Button> buttons)
+
+    public static async Task<int> WaitForButtonFromListClickAsync(List<Button> buttons)
     {
         var tcs = new TaskCompletionSource<int>();
 
@@ -219,5 +243,4 @@ public static class Utils
         button.Accepting += handler;
         await tcs.Task;
     }
-
 }

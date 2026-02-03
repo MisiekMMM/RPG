@@ -10,10 +10,6 @@
         "rozmowa": "",
         "przedmioty": []
     },
-    "walka": {
-        "przeciwnicy": [
-            
-        ]
-    },
+    "walka": [],
     "zycie": 0
 }

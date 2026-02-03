@@ -40,16 +40,27 @@ public class Enemy
         return atak;
     }
 
-    public bool ChangeHealthAndCheckKill(int Health, AttackType AttackType, Element AttackElement)
+    public bool ChangeHealthAndCheckKill(int Health, AttackType AttackType, Element AttackElement, out int Damage)
     {
         if (AttackType == AttackType.Healing)
         {
             Hp += Health;
+            Damage = 0;
             return false;
         }
         else if (AttackType == AttackType.Physical)
         {
+            Damage = Health;
             Hp += Health;
+
+            if (Hp <= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else if (AttackType == AttackType.Magic)
         {   //woda, ziemia, ogien, powietrze, swiatlo, cien
@@ -125,9 +136,21 @@ public class Enemy
                 }
             };
 
-            Hp += (int)(Health * elementChart[AttackElement][EnemyElement]);
+            Damage = (int)(Health * elementChart[AttackElement][EnemyElement]);
+
+            Hp += Damage;
+
+            if (Hp <= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
+        Damage = Health;
 
         if (Hp <= 0)
         {

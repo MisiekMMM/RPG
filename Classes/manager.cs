@@ -19,12 +19,13 @@ public static class Manager
     public static Label FightFlavorLabel = new();
     public static List<int> values = new();
     public static List<Button> inventoryButtons = new();
+    public static List<Button> spellButtons = new();
 
     public static Button FightNextButton = new();
     public static Dictionary<string, Race> races = new()
     {
-        {"Człowiek", new("Człowiek", 10,10,5,5,5,10,0,0,0,-10, 180)},
-        {"Krasnolud", new("Krasnolud", 15, 10, 0, -20, -10, 0, -20, -10, 0, -20, 200) },
+        {"Człowiek", new("Człowiek", 10,10,5,5,5,10,0,0,0,10, 180)},
+        {"Krasnolud", new("Krasnolud", 15, 10, 0, -20, -10, 0, -20, -10, 0, 6, 200) },
         {"Elf", new("Elf", -10, 0, 10, 5, 5, 5, 10,10, 0, 20, 150) }
     };
     public static ColorScheme ColorScheme = new()

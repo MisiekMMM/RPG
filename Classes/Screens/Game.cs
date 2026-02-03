@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Terminal.Gui;
 
@@ -38,6 +39,8 @@ public partial class Game
 
         lblHP.Text = $"HP: {Manager.hero.health}/{Manager.hero.maxHealth}";
 
+        lblMana.Text = $"Mana: {Manager.hero.mana}/{Manager.hero.maxMana}";
+
         lblLevel.Text = $"lvl: {Manager.hero.level} exp: {Manager.hero.exp}";
 
         lblRaceClass.Text = $"{Manager.hero.rasa!.name} - {Manager.hero.klasa}";
@@ -70,38 +73,90 @@ public partial class Game
             EnemyNameHp.Text = $"{Manager.EnemyList[CurrentlyCheckedEnemy].Nazwa} - {Manager.EnemyList[CurrentlyCheckedEnemy].EnemyElement} - {Manager.EnemyList[CurrentlyCheckedEnemy].Hp}";
             EnemyDescription.Text = Manager.EnemyList[CurrentlyCheckedEnemy].Opis;
         }
+
+        for (int i = 0; i < Manager.hero!.SpellList.Count; i++)
+        {
+            Attack spell = Manager.hero!.SpellList[i];
+
+            if (i >= SpellButtons.Count)
+            {
+                GenerateNewSpellTab();
+            }
+            SpellButtons[i].Text = spell.Nazwa;
+        }
     }
     async Task Start()
     {
         GenerateNewSpellTab();
-        GenerateNewSpellTab();
-        GenerateNewSpellTab();
+
+        // Attack BasicSpell = new()
+        // {
+        //     Nazwa = "Podstawowe zaklęcie",
+        //     MinStrength = 70,
+        //     MaxStrength = 100,
+        //     ManaCost = 3,
+        //     AttackElement = Element.Light,
+        //     attackType = AttackType.Magic
+        // };
+
+        // await Manager.hero!.GiveSpell(BasicSpell);
 
         await GiveStarterKit();
+
+        //await StartBattle();
+
+        Update();
 
         Statystyki stats = new();
 
         stats.GetStatsFromHero(Manager.hero!);
 
-        await Utils.WriteAsync("OH MY GOD I AM SO SORRY IT WAS JUST A JOKE I AM NOT RACIST");  // Just realised my test message used the n-word
+        // await Utils.WriteAsync("OH MY GOD I AM SO SORRY IT WAS JUST A JOKE I AM NOT RACIST");  // Just realised my test message used the n-word
 
-        await StartBattle();
-
-        await Utils.WriteAsync("Test123");
+        // await Utils.WriteAsync("Test123");
 
 
-        JSONReport json = new("", UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList());
+        JSONReport json = new("", UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList(), Manager.hero!.SpellList);
 
         while (true)
         {
             string serialized = JSONReport.Serialize(json);
             //MessageBox.Query("Bob", "the builder 2", "ok");
 
-            string responseJson = File.ReadAllText(@"response.txt");//await AiManager.Generate(serialized);//
+            string responseJson = await AiManager.Generate(serialized);//File.ReadAllText(@"response.txt");//
 
             Response response = Response.SetValuesFromJson(responseJson);
 
+
             await Utils.WriteAsync(response.Historia);
+
+
+            if (response.Exp > 0)
+            {
+                bool didLevelUp = Manager.hero!.AddEXP(response.Exp);
+
+                await Utils.WriteFlavorAsync($"Zdobywasz {response.Exp} EXP! [>>>]");
+                await Utils.WaitForButtonClickAsync(Manager.nextButton!);
+                Update();
+
+                if (didLevelUp)
+                {
+                    await Utils.WriteFlavorAsync($"Awansujesz na poziom {Manager.hero!.level}! [>>>]");
+                    await Utils.WaitForButtonClickAsync(Manager.nextButton!);
+                    Update();
+                }
+            }
+
+            foreach (KeyValuePair<string, int> entry in response.Stats)
+            {
+                Manager.hero!.Stats[entry.Key] += entry.Value;
+                if (entry.Value != 0)
+                {
+                    await Utils.WriteFlavorAsync($"Twoja statystyka {entry.Key} wzrosła o {entry.Value} [>>>]");
+                    await Utils.WaitForButtonClickAsync(Manager.nextButton!);
+                    Update();
+                }
+            }
 
             Manager.hero.money += response.Money;
 
@@ -114,10 +169,19 @@ public partial class Game
 
             foreach (Item przedmiot in response.Przedmioty)
             {
+                Item[] inv = Manager.hero!.inventory;
+
                 await Utils.WriteFlavorAsync($"Otrzymujesz {przedmiot.Nazwa} [>>>]");
                 await Utils.WaitForButtonClickAsync(Manager.nextButton!);
 
                 await Manager.hero.GiveItem(przedmiot);
+                Update();
+            }
+
+            foreach (Attack spell in response.Spells)
+            {
+                await Manager.hero.GiveSpell(spell);
+                await Utils.WaitForButtonClickAsync(Manager.nextButton!);
                 Update();
             }
 
@@ -151,7 +215,7 @@ public partial class Game
                 await ShowItemUsageButtons();
 
                 stats.GetStatsFromHero(Manager.hero!);
-                json = new(cmbWybor.Text, UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList());
+                json = new(cmbWybor.Text, UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList(), Manager.hero!.SpellList);
 
                 continue;
             }
@@ -181,20 +245,29 @@ public partial class Game
                 await ShowItemUsageButtons();
 
                 stats.GetStatsFromHero(Manager.hero!);
-                json = new(cmbWybor.Text, UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList());
+                json = new(cmbWybor.Text, UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList(), Manager.hero!.SpellList);
 
 
 
                 continue;
             }
 
-            //Add battling here
+            if (response.Walka.Count > 0)
+            {
+
+                await StartBattle(response.Walka);
+
+                stats.GetStatsFromHero(Manager.hero!);
+                json = new(cmbWybor.Text, UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList(), Manager.hero!.SpellList);
+
+                continue;
+            }
 
             await Utils.WriteFlavorAsync("Press [>>>] to continue with the story");
             await ShowItemUsageButtons();
 
             stats.GetStatsFromHero(Manager.hero!);
-            json = new("", UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList());
+            json = new("", UzytePrzedmioty, true, ZakupionePrzedmioty, stats, Manager.hero!.inventory.ToList(), Manager.hero!.SpellList);
 
 
             continue;
@@ -214,7 +287,29 @@ public partial class Game
 
             await Utils.WriteFlavorAsync("Wybierz przedmiot, który chcesz sprawdzić.");
 
-            int buttonID = await Utils.WaitForInventoryButtonClickAsync();
+            int buttonID = await Utils.WaitForInventoryButtonClickAsync(false, true);
+
+            if (buttonID < 0)
+            {
+                buttonID *= -1;
+
+                buttonID -= 1;
+
+                if (Manager.hero!.SpellList[buttonID] != null)
+                {
+                    BtnDrop.Visible = false;
+                    BtnItemInfo.Visible = false;
+                    BtnUse.Visible = false;
+
+                    Attack spell = Manager.hero!.SpellList[buttonID];
+                    //$"Uczysz się zaklęcia {spell.Nazwa}! Siła: {(spell.MinStrength + spell.MaxStrength) / 2}  Żywiół: {spell.AttackElement.ToString()}  Koszt many: {spell.ManaCost}");
+                    await Utils.WriteFlavorAsync($"Zaklęcie \"{spell.Nazwa}\" Siła: {(spell.MinStrength + spell.MaxStrength) / 2}  Żywiół: {spell.AttackElement.ToString()}  Koszt Many: {spell.ManaCost}");
+
+                    BtnDrop.Visible = true;
+                    BtnItemInfo.Visible = true;
+                    BtnUse.Visible = true;
+                }
+            }
 
             if (Manager.hero!.inventory[buttonID] != null)
             {
@@ -343,13 +438,13 @@ public partial class Game
                 Y = i * (buttonHeight + buttonSpacing) // stack vertically
             };
 
-            EventHandler<CommandEventArgs> handler =
-            async (object? sender, CommandEventArgs args) =>
-            {
-                MessageBox.Query("a", $"{Console.WindowWidth} {Console.WindowHeight}", "ok");
-            };
+            // EventHandler<CommandEventArgs> handler =
+            // async (object? sender, CommandEventArgs args) =>
+            // {
+            //     MessageBox.Query("a", $"{Console.WindowWidth} {Console.WindowHeight}", "ok");
+            // };
 
-            newButton.Accepting += handler;
+            // newButton.Accepting += handler;
 
             // Optional debug message to check position
             // MessageBox.Query("Debug", $"Button {i}: Y={newButton.Y}, Height={newButton.Height}", "OK");
@@ -357,7 +452,7 @@ public partial class Game
             SpellButtons.Add(newButton);
             view.Add(newButton);
         }
-
+        Manager.spellButtons = SpellButtons;
         // Assign the view to the tab
         newTab.View = view;
 
@@ -367,42 +462,41 @@ public partial class Game
         // Add the tab to the TabView
         SpellPanel.AddTab(newTab, true);
     }
-
-
-    async Task StartBattle()
+    async Task StartBattle(List<Enemy> EnemyList)
     {
-        Manager.EnemyList = [
-            new(){
-            Nazwa = "Wolf",
-            Hp = 150,
-            Opis = "He's the alpha, he's the leader. I dunno but i think he's the one to trust.",
-            EnemyElement = Element.Earth,
-            Ataki = [
-                    new(){
-                        Nazwa = "Wilcze majty",
-                        AttackElement = Element.Dark,
-                        attackType = AttackType.Physical,
-                        MinStrength = 2,
-                        MaxStrength = 1000
-                    }
-            ]
-        },
-new(){
-            Nazwa = "Ligma",
-            Hp = 3,
-            Opis = "Who's Ligma?",
-            EnemyElement = Element.Earth,
-            Ataki = [
-                    new(){
-                        Nazwa = "This potion",
-                        AttackElement = Element.Dark,
-                        attackType = AttackType.Magic,
-                        MinStrength = 2,
-                        MaxStrength = 50
-                    }
-            ]
-        }
-        ];
+        Manager.EnemyList = EnemyList;
+        //         [
+        //             new(){
+        //             Nazwa = "Wolf",
+        //             Hp = 50,
+        //             Opis = "He's the alpha, he's the leader. I dunno but i think he's the one to trust.",
+        //             EnemyElement = Element.Earth,
+        //             Ataki = [
+        //                     new(){
+        //                         Nazwa = "Wilcze majty",
+        //                         AttackElement = Element.Dark,
+        //                         attackType = AttackType.Physical,
+        //                         MinStrength = 2,
+        //                         MaxStrength = 50
+        //                     }
+        //             ]
+        //         },
+        // new(){
+        //             Nazwa = "Ligma",
+        //             Hp = 3,
+        //             Opis = "Who's Ligma?",
+        //             EnemyElement = Element.Earth,
+        //             Ataki = [
+        //                     new(){
+        //                         Nazwa = "This potion",
+        //                         AttackElement = Element.Dark,
+        //                         attackType = AttackType.Magic,
+        //                         MinStrength = 2,
+        //                         MaxStrength = 50
+        //                     }
+        //             ]
+        //         }
+        //         ];
 
         ObservableCollection<string> src = new();
 
@@ -431,7 +525,7 @@ new(){
 
             List<Button> btns = [BtnFightAttack, BtnFightSpell, BtnFightUse];
 
-            int ButtonClicked = await Utils.WaitForFightButtonAsync(btns);
+            int ButtonClicked = await Utils.WaitForButtonFromListClickAsync(btns);
 
             BtnFightAttack.Visible = false;
             BtnFightSpell.Visible = false;
@@ -439,18 +533,30 @@ new(){
 
             if (ButtonClicked == 0)
             {
-                //MessageBox.Query("OOOooooo", "Do i even start? Who knows! OOOOoooo", "Omg such a scary pop up");
+                SpellPanel.HasFocus = false;
+                SpellPanel.CanFocus = false;
+                //MessageBox.Query("OOOooooo", "Am i even starting? Who knows! OOOOoooo", "Omg such a scary pop up");
 
                 BattleDownPanel.SetFocus();
                 BattleDownPanel.CanFocus = true;
+                BattleDownPanel.HasFocus = true;
 
                 FightTimingAttackView.SetFocus();
                 FightTimingAttackView.CanFocus = true;
+                FightTimingAttackView.HasFocus = true;
 
                 FightTimingAttackView.Visible = true;
                 FightTimingAttackView.Restart();
 
+                FightTimingAttackView.SetFocus();
+                FightTimingAttackView.CanFocus = true;
+                FightTimingAttackView.HasFocus = true;
+
                 EnemiesListView.SelectedItemChanged -= UpdateEnemyDetails!;
+
+                FightTimingAttackView.SetFocus();
+                FightTimingAttackView.CanFocus = true;
+                FightTimingAttackView.HasFocus = true;
 
                 await FightTimingAttackView.tcs.Task;
 
@@ -460,9 +566,9 @@ new(){
 
                 float AttackStrength = FightTimingAttackView.AttackStrength;
 
-                bool DidKill = Manager.EnemyList[CurrentlyCheckedEnemy].ChangeHealthAndCheckKill((int)(-AttackStrength * Manager.hero!.Stats["strength"]), AttackType.Physical, Element.None);
+                bool DidKill = Manager.EnemyList[CurrentlyCheckedEnemy].ChangeHealthAndCheckKill((int)(-AttackStrength * Manager.hero!.Stats["strength"]), AttackType.Physical, Element.None, out int damage);
 
-                await Utils.WriteFightFlavorAsync($"Obrażenia wynoszą {(int)(AttackStrength * Manager.hero!.Stats["strength"])} HP", true);
+                await Utils.WriteFightFlavorAsync($"Obrażenia wynoszą {-damage} HP", true);
 
                 //MessageBox.Query("", "123", "abc");
 
@@ -470,11 +576,58 @@ new(){
                 {
                     Manager.EnemyList.RemoveAt(CurrentlyCheckedEnemy);
                     CurrentlyCheckedEnemy = 0;
+                    Manager.hero!.Stats["strength"] += 2;
                 }
             }
             else if (ButtonClicked == 1)
             {
+                SpellPanel.HasFocus = true;
+                SpellPanel.CanFocus = true;
 
+                if (Manager.hero!.SpellList.Count == 0)
+                {
+                    await Utils.WriteFightFlavorAsync("Nie masz żadnych zaklęć! Twoja tura zostanie powtórzona.", true);
+                    continue;
+                }
+
+                EnemiesListView.SelectedItemChanged -= UpdateEnemyDetails!;
+
+                await Utils.WriteFightFlavorAsync("Wybierz zaklęcie które chcesz użyć.");
+
+                int SpellIndex = await Utils.WaitForButtonFromListClickAsync(SpellButtons);
+
+                if (Manager.hero!.mana < Manager.hero!.SpellList[SpellIndex].ManaCost)
+                {
+                    continue;
+                }
+
+                float AttackStrength = Manager.hero!.SpellList[SpellIndex].GetAttackStrength();
+
+                /*  (don't mind my quick cheat sheet)
+                float AttackStrength = FightTimingAttackView.AttackStrength;
+
+                bool DidKill = Manager.EnemyList[CurrentlyCheckedEnemy].ChangeHealthAndCheckKill((int)(-AttackStrength * Manager.hero!.Stats["strength"]), AttackType.Physical, Element.None);
+
+                await Utils.WriteFightFlavorAsync($"Obrażenia wynoszą {(int)(AttackStrength * Manager.hero!.Stats["strength"])} HP", true);
+                */
+
+                bool DidKill = Manager.EnemyList[CurrentlyCheckedEnemy].ChangeHealthAndCheckKill((int)(-AttackStrength * Manager.hero!.Stats["magic"] / 100), AttackType.Magic, Manager.hero!.SpellList[SpellIndex].AttackElement, out int damage);
+
+                Manager.hero!.ChangeMana(-Manager.hero!.SpellList[SpellIndex].ManaCost);
+
+                Update();
+
+                await Utils.WriteFightFlavorAsync($"Obrażenia wynoszą {-damage} HP", true);
+
+                if (DidKill)
+                {
+                    Manager.EnemyList.RemoveAt(CurrentlyCheckedEnemy);
+                    CurrentlyCheckedEnemy = 0;
+                    Manager.hero!.Stats["magic"] += 2;
+                }
+
+
+                EnemiesListView.SelectedItemChanged += UpdateEnemyDetails!;
             }
             else if (ButtonClicked == 2)
             {
@@ -501,7 +654,10 @@ new(){
             UpdateEnemySource();
             Update();
 
-            await EnemyTurn();
+            if (Manager.EnemyList.Count > 0)
+            {
+                await EnemyTurn();
+            }
 
             Update();
 
@@ -509,6 +665,12 @@ new(){
             BtnFightSpell.Visible = true;
             BtnFightUse.Visible = true;
         }
+
+        MiddlePanel.Visible = true;
+        DownPanel.Visible = true;
+
+        BattleDownPanel.Visible = false;
+        BattleMiddlePanel.Visible = false;
     }
     async Task EnemyTurn()
     {
@@ -526,7 +688,7 @@ new(){
         switch (atak.attackType)
         {
             case AttackType.Healing:
-                Manager.EnemyList[EnemyIndex].ChangeHealthAndCheckKill(AttackStrength, AttackType.Healing, Element.None);
+                Manager.EnemyList[EnemyIndex].ChangeHealthAndCheckKill(AttackStrength, AttackType.Healing, Element.None, out int damage);
                 await Utils.WriteFightFlavorAsync($"{Manager.EnemyList[EnemyIndex].Nazwa} uzdrawia {AttackStrength} HP!", true);
                 break;
             case AttackType.Physical or AttackType.Magic:
@@ -617,25 +779,56 @@ new(){
 
         //Tu wstawić 2 zaklęcia
 
+        Attack KulaOgnia = new()
+        {
+            Nazwa = "Kula Ognia",
+            AttackElement = Element.Fire,
+            attackType = AttackType.Magic,
+            MinStrength = 90,
+            MaxStrength = 135,
+            ManaCost = 2
+        };
+
+        Attack LeczniczaKula = new()
+        {
+            Nazwa = "Lecznicza Kula",
+            AttackElement = Element.Light,
+            attackType = AttackType.Healing,
+            MinStrength = 90,
+            MaxStrength = 135,
+            ManaCost = 4
+        };
 
         //Mnich
 
         Item MagicznaPeleryna = new("zbroja", "Magiczna Peleryna", 10);
 
+        Attack KulaDobra = new()
+        {
+            Nazwa = "Kula Dobra",
+            AttackElement = Element.Light,
+            attackType = AttackType.Healing,
+            MinStrength = 60,
+            MaxStrength = 110,
+            ManaCost = 5
+        };
+
         //Jedno zaklecie
 
         if (Manager.hero!.klasa == "Wojownik")
         {
-            Manager.hero!.inventory = [StalowyMiecz, ZbrojaKolczatka];
+            Manager.hero!.inventory = [StalowyMiecz, ZbrojaKolczatka, null!, null!, null!, null!, null!, null!];
         }
         else if (Manager.hero!.klasa == "Mag")
         {
             //Tutaj zaklęcia
+            Manager.hero!.SpellList = [KulaOgnia, LeczniczaKula];
         }
         else if (Manager.hero!.klasa == "Mnich")
         {
-            Manager.hero!.inventory = [MagicznaPeleryna];
+            Manager.hero!.inventory = [MagicznaPeleryna, null!, null!, null!, null!, null!, null!, null!,];
             // Zaklęcie
+            Manager.hero!.SpellList = [KulaDobra];
         }
     }
 }

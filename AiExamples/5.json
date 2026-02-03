@@ -10,15 +10,21 @@
         "rozmowa": "",
         "przedmioty": []
     },
-    "walka": {
-        "przeciwnicy": [
-            {
+    "walka": [{
                 "nazwa": "",
                 "hp": 0,
-                "atak": 0,
-                "opis": ""
-            }
-        ]
-    },
+                "opis": "",
+                "typ": "",
+                "ataki":[
+                    {
+                        "nazwa": "",
+                        "typ": "",
+                        "min": 0,
+                        "max": 0,
+                        "attackType": "",
+                        "mana": 0
+                    }
+                ]
+            }],
     "zycie": 0
 }

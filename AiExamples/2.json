@@ -16,10 +16,6 @@
             
         ]
     },
-    "walka": {
-        "przeciwnicy": [
-            
-        ]
-    },
+    "walka": [],
     "zycie": 0
 }

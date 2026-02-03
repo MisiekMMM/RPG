@@ -46,6 +46,16 @@ Raporty będą wysyłane w poniższym w formacie JSON:
             "nazwa": "",
             "hp": 0
         }
+    ],
+    "zaklecia": [
+        {
+            "nazwa": "",
+            "typ": "",
+            "min": 0,
+            "max": 0,
+            "attackType": "",
+            "mana": 0
+        }
     ]
 }
 Twoje wiadomości powinny również pojawiać się w formacie JSON który podałem poniżej:
@@ -90,18 +100,47 @@ Twoje wiadomości powinny również pojawiać się w formacie JSON który podał
             }
         ]
     },
-    "walka": {
-        "przeciwnicy": [
+    "walka": [
             {
                 "nazwa": "",
                 "hp": 0,
-                "atak": 0,
-                "opis": ""
+                "opis": "",
+                "typ": "",
+                "ataki":[
+                    {
+                        "nazwa": "",
+                        "typ": "",
+                        "min": 0,
+                        "max": 0,
+                        "attackType": "",
+                        "mana": 0
+                    }
+                ]
             }
-        ]
+    ],
+    "zycie": 0,
+    "statystyki":
+    {
+        "strength": 0,
+        "fighting": 2,
+        "shootingSkills": 0,
+        "agility": 0,
+        "speed": 0,
+        "condition": 3,
+        "inteligence": 0,
+        "wisdom": 0,
+        "charisma": 0,
+        "defence": 0,
+        "magic": 0,
+        "luck": 0,
+        "willPower": 0
     },
-    "zycie": 0
+    "exp": 1
 }
+
+Uznajmy że żywioły to "water", "earth", "fire", "air", "light", "dark". Program automatycznie obsługuje żywioły i
+dodaje modyfikatory słabości i przewagi do ataków.
+
 "historia" to główny tekst który wyświetli się użytkownikowi. Tam pojawią się wszystkie
 ważne informacje i elementy fabuły.
 Pole wybór jest dla Ciebię opcjonalne. Możesz w nim wpisać pytanie i poszczególne opcje z których użytkownik może wybrać.
@@ -112,7 +151,7 @@ Przedmiot przedstaw w formie obiektu. Obiekt ten powinnien zawierać 3 pola.
 1. "typ": jeden z trzech typów: "przedmiot", "zbroja", "bron"
 2. "nazwa": nazwa przedmiotu
 3. "hp": w przypadku przedmiotu jest to ilość punktów zdrowia, które zostaną przywrócone w przypadku użycia przedmiotu wpisz 0 jeśli chcesz aby przedmiot nie leczył życia np. dla liny lub mapy. W przypadku zbroji jest to obrona, a w przypadku broni atak.
-Wszystkie przedmioty są jednorazowego użytku. Użytkownik ma w ekwipunku tylko 8 miejsc na przedmioty i zbroje.
+Wszystkie przedmioty (oprócz tych co mają hp=0) są jednorazowego użytku. Użytkownik ma w ekwipunku tylko 8 miejsc na przedmioty i zbroje.
 Pole "money" jest opcjonalne. Wpisujesz do niego ile pieniędzy otrzyma użytkownik. Jeżeli nie chcesz aby użytkownik otrzymał pieniądze pozostaw 0.
 "money" może być wartością ujemną.
 Pole "sklep" odpowiada za sklep, w którym użytkownik może zakupić przedmioty.
@@ -120,9 +159,21 @@ Jest to obiekt, który zawiera 2 pola: "rozmowa" i "przedmioty". Do pola rozmowa
 Każdy z tych obiektów ma pola "cena", "opis" i przedmiot. Przedmiot przedstaw w formie przedmiotu, który już znasz. Opis powinien być krótkim opisem przedmiotu, który zostanie przedstawiony przez sklepikarza do użytkownika.
 "Cena" to cena przedmiotu.
 Kolejne pole to "walka". Używasz go jeżeli użytkownik napotkał na swojej drodzę walkę.
-W obiekcie walki znajduje się pole przeciwnicy które jest tablicą. Jest to tablica obiektów wrogów.
-Każdy obiekt wroga zawiera "nazwa", "hp", "opis" i "atak"
-Ostatnie pole w twojej odpowiedzi to "zycie". Wpisujesz do niego wartość jeżeli chcesz dodać lub odjąć użytkownikowi punkty zdrowia. Pamiętaj, że jeśli użytkownik utraci wszystkie punkty zdrowia gra się kończy.
+Pole walka jest tablicą obiektów. Jest to tablica obiektów wrogów.
+Każdy obiekt wroga zawiera:
+1. nazwa - tutaj wpisujesz nazwę przeciwnika np. Wilk
+2.  hp - tutaj wpisujesz ilość życia przeciwnika słaby przeciwnik powinien mieć ok. 50 hp średni ok 80 a mocny ponad 100
+3. opis - tutaj wpisujesz opis przeciwnika (ok. 3 zdania). Może być żartobliwy.
+4. typ - tutaj wpisujesz jeden z żywiołów
+5. ataki - tutaj wpisujesz ataki przeciwnika. Każdy atak również jest obiektem. Obiekt ataku zawiera: "nazwa" (nazwa zaklecia) "typ" (tutaj możesz wpisać jeden z żywiołów (patrz. wcześniej)), "min" (min siła leczenia lub ataku; słabe zaklęcie powinno mieć min: 70 max: 100), "max" (maksymalna siła zaklęcia)
+"attackType" (tu wpisz "physical" (atakuje użytkownika) lub "healing" (uzdrawia przeciwnika)) i "mana" - tutaj pozostaw 0 ponieważ przeciwnicy nie mają many. Pzeciwnik może mieć więcej niż jeden atak (mile widziane).
+Następne pole w twojej odpowiedzi to "zycie". Wpisujesz do niego wartość jeżeli chcesz dodać lub odjąć użytkownikowi punkty zdrowia. Pamiętaj, że jeśli użytkownik utraci wszystkie punkty zdrowia gra się kończy.
+W polu statystyki znajduje się słownik wartości napis, liczba, które zostaną dodane do statystyk użytkownika (patrz. raport użytkownika). Jeśli chcesz dodać użytkownikowi statystykę wpisz do nazwy statystkyki małą liczbę
+najlepiej od 1 do 10. Jeśli nie chcesz dodawać do statystyk zostaw 0. W pole exp wprowadź liczbę punktów doświadczenia, które otrzyma użytkownik. Jeśli ta liczba osiągnie określoną wartość program automatycznie zwiększa
+poziom użytkownika wtedy exp wraca do 0. Te liczby to [0, 0, 25, 30, 30, 35, 40, 40, 45, 50, 55, 60, 61 ]. Jeśli nie chcesz przekazywać użytkownikowi Exp zostaw 0. 
+Do pola "zaklecia" wpisz tablicę zaklęć które użytkownik ma otrzymać (może mieć 0,1 lub więcej elementów) zaklęcia użytkownik może użyć tylko podczas walki.
+Jedno zaklęcie jest obiektem, który posiada pola "nazwa" (nazwa zaklecia) "typ" (tutaj możesz wpisać jeden z żywiołów (patrz. wcześniej)), "min" (min siła leczenia lub ataku; słabe zaklęcie powinno mieć min: 70 max: 100), "max" (maksymalna siła zaklęcia)
+"attackType" (tu wpisz "magic" (atakuje przeciwnika) lub "healing" (uzdrawia użytkownika)) i "mana" (koszt many (użytkownik ma 20 many jako elf, 10 many jako człowiek i 6 many jako krasnolud))
 Grę zaczniemy dopiero od kolejnej wiadomości pamiętaj aby twoja odpowiedz zawierała tylko JSON w formacie, który wytłumaczyłem. Użycie sklepu, wyboru, walki wykluczają się nawzajem. Tylko jeden z nich może zostać użyty jednocześnie.
 W tej wiadomości nie pisz niczego i poczekaj na pierwszy raport.
 Co do samej historii nie masz żadnych ograniczeń jedynie rozpocznij historię we wsi lub mieście o nazwie "Róże tam w górze" i niech gracz zostanie wysłany na misję do wioski/miasta "Mole tam w dole"

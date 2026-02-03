@@ -15,6 +15,10 @@ public class TimingAttackView : View
 
     public TimingAttackView()
     {
+        CanFocus = true;
+        HasFocus = true;
+        SetFocus();
+
         Width = Dim.Fill();
         Height = Dim.Fill();
 
@@ -40,6 +44,10 @@ public class TimingAttackView : View
 
     void Tick()
     {
+        CanFocus = true;
+        HasFocus = true;
+        SetFocus();
+
         if (finished)
         {
             timer.Dispose();
@@ -62,6 +70,10 @@ public class TimingAttackView : View
 
     public void Restart()
     {
+        CanFocus = true;
+        HasFocus = true;
+        SetFocus();
+
         tcs = new();
         // Stop old timer if it exists
         timer?.Dispose();

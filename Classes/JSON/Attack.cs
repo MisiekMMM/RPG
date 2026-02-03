@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace RPG;
 
@@ -24,6 +25,9 @@ public class Attack
     public int MaxStrength { get; set; }
     [JsonPropertyName("attackType")]
     public AttackType attackType;
+
+    [JsonPropertyName("mana")]
+    public int ManaCost { get; set; }
 
     public int GetAttackStrength()
     {

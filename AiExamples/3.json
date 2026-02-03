@@ -10,10 +10,6 @@
             
         ]
     },
-    "walka": {
-        "przeciwnicy": [
-            
-        ]
-    },
+    "walka": [],
     "zycie": -20
 }

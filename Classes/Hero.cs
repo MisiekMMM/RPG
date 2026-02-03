@@ -31,11 +31,11 @@ public class Hero
     public Item? armor = null;
     public Item? weapon = null;
     public Item[] inventory = new Item[8];
-    public List<Attack> AttackList = new();
+    public List<Attack> SpellList = new();
     public string klasa = "";
     public Race? rasa;
-    public int mana;
-    public int maxMana;
+    public int mana = 20;
+    public int maxMana = 20;
     public int money;
 
     public async Task UseItem(Item item, int itemID)
@@ -86,6 +86,12 @@ public class Hero
             }
         }
     }
+    public async Task GiveSpell(Attack spell)
+    {
+        SpellList.Add(spell);
+
+        await Utils.WriteFlavorAsync($"Uczysz się zaklęcia {spell.Nazwa}! Siła: {(spell.MinStrength + spell.MaxStrength) / 2}  Żywiół: {spell.AttackElement.ToString()}  Koszt many: {spell.ManaCost}");
+    }
     public void AddHealth(int health)
     {
         this.health += health;
@@ -95,14 +101,19 @@ public class Hero
             this.health = maxHealth;
         }
     }
-    public void AddEXP(int exp)
+    public bool AddEXP(int exp)
     {
         this.exp += exp;
 
         if (exp >= levels[level + 1])
         {
             level++;
-            exp -= levels[level];
+            this.exp -= levels[level];
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
     public async Task ChangeArmor(Item armor, int itemID)

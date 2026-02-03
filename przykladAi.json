@@ -39,15 +39,50 @@
             }
         ]
     },
-    "walka": {
-        "przeciwnicy": [
+    "walka": [
             {
                 "nazwa": "",
                 "hp": 0,
-                "atak": 0,
-                "opis": ""
+                "opis": "",
+                "typ": "",
+                "ataki":[
+                    {
+                        "nazwa": "",
+                        "typ": "",
+                        "min": 0,
+                        "max": 0,
+                        "attackType": "",
+                        "mana": 0
+                    }
+                ]
             }
-        ]
+    ],
+    "zycie": 0,
+    "statystyki":
+    {
+        "strength": 0,
+        "fighting": 2,
+        "shootingSkills": 0,
+        "agility": 0,
+        "speed": 0,
+        "condition": 3,
+        "inteligence": 0,
+        "wisdom": 0,
+        "charisma": 0,
+        "defence": 0,
+        "magic": 0,
+        "luck": 0,
+        "willPower": 0
     },
-    "zycie": 0
+    "exp": 1,
+    "zaklecia": [
+        {
+            "nazwa": "",
+            "typ": "",
+            "min": 0,
+            "max": 0,
+            "attackType": "",
+            "mana": 0
+        }
+    ]
 }
