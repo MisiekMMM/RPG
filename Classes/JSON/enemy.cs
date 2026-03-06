@@ -26,7 +26,9 @@ public class Enemy
     [JsonPropertyName("opis")]
     public string Opis { get; set; } = "";
     [JsonPropertyName("typ")]
-    public Element EnemyElement { get; set; }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public Element EnemyElement { get; set; } = Element.None;
 
     [JsonPropertyName("ataki")]
     public List<Attack> Ataki { get; set; } = [];

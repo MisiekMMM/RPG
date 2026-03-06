@@ -121,15 +121,20 @@ public partial class Game
         while (true)
         {
             string serialized = JSONReport.Serialize(json);
+
             //MessageBox.Query("Bob", "the builder 2", "ok");
 
-            string responseJson = await AiManager.Generate(serialized);//File.ReadAllText(@"response.txt");//
+            string responseJson = File.ReadAllText(@"response.json");//await AiManager.Generate(serialized);//
+
+            // MessageBox.Query("Bob", "the builder 3", "ok");
 
             Response response = Response.SetValuesFromJson(responseJson);
 
+            //MessageBox.Query("Bob", "the builder 4", "ok");
 
             await Utils.WriteAsync(response.Historia);
 
+            // MessageBox.Query("Bob", "the builder 5", "ok");
 
             if (response.Exp > 0)
             {
@@ -304,6 +309,7 @@ public partial class Game
                     Attack spell = Manager.hero!.SpellList[buttonID];
                     //$"Uczysz się zaklęcia {spell.Nazwa}! Siła: {(spell.MinStrength + spell.MaxStrength) / 2}  Żywiół: {spell.AttackElement.ToString()}  Koszt many: {spell.ManaCost}");
                     await Utils.WriteFlavorAsync($"Zaklęcie \"{spell.Nazwa}\" Siła: {(spell.MinStrength + spell.MaxStrength) / 2}  Żywiół: {spell.AttackElement.ToString()}  Koszt Many: {spell.ManaCost}");
+                    await Utils.WaitForButtonClickAsync(nextButton);
 
                     BtnDrop.Visible = true;
                     BtnItemInfo.Visible = true;
@@ -464,6 +470,9 @@ public partial class Game
     }
     async Task StartBattle(List<Enemy> EnemyList)
     {
+
+        Manager.hero!.mana = Manager.hero!.maxMana;
+
         Manager.EnemyList = EnemyList;
         //         [
         //             new(){
@@ -578,6 +587,7 @@ public partial class Game
                     CurrentlyCheckedEnemy = 0;
                     Manager.hero!.Stats["strength"] += 2;
                 }
+                SpellPanel.CanFocus = false;
             }
             else if (ButtonClicked == 1)
             {
@@ -611,21 +621,33 @@ public partial class Game
                 await Utils.WriteFightFlavorAsync($"Obrażenia wynoszą {(int)(AttackStrength * Manager.hero!.Stats["strength"])} HP", true);
                 */
 
-                bool DidKill = Manager.EnemyList[CurrentlyCheckedEnemy].ChangeHealthAndCheckKill((int)(-AttackStrength * Manager.hero!.Stats["magic"] / 100), AttackType.Magic, Manager.hero!.SpellList[SpellIndex].AttackElement, out int damage);
-
-                Manager.hero!.ChangeMana(-Manager.hero!.SpellList[SpellIndex].ManaCost);
-
-                Update();
-
-                await Utils.WriteFightFlavorAsync($"Obrażenia wynoszą {-damage} HP", true);
-
-                if (DidKill)
+                if (Manager.hero!.SpellList[SpellIndex].attackType == AttackType.Healing)
                 {
-                    Manager.EnemyList.RemoveAt(CurrentlyCheckedEnemy);
-                    CurrentlyCheckedEnemy = 0;
-                    Manager.hero!.Stats["magic"] += 2;
-                }
+                    int health = (int)AttackStrength;
 
+                    Manager.hero!.AddHealth(health);
+
+                    Update();
+
+                    await Utils.WriteFightFlavorAsync($"Uzdrawiasz {health} HP!", true);
+                }
+                else
+                {
+                    bool DidKill = Manager.EnemyList[CurrentlyCheckedEnemy].ChangeHealthAndCheckKill((int)(-AttackStrength * Manager.hero!.Stats["magic"] / 100), AttackType.Magic, Manager.hero!.SpellList[SpellIndex].AttackElement, out int damage);
+
+                    Manager.hero!.ChangeMana(-Manager.hero!.SpellList[SpellIndex].ManaCost);
+
+                    Update();
+
+                    await Utils.WriteFightFlavorAsync($"Obrażenia wynoszą {-damage} HP", true);
+
+                    if (DidKill)
+                    {
+                        Manager.EnemyList.RemoveAt(CurrentlyCheckedEnemy);
+                        CurrentlyCheckedEnemy = 0;
+                        Manager.hero!.Stats["magic"] += 2;
+                    }
+                }
 
                 EnemiesListView.SelectedItemChanged += UpdateEnemyDetails!;
             }
@@ -771,9 +793,20 @@ public partial class Game
     async Task GiveStarterKit()
     {
         //Wojownik
-        Item StalowyMiecz = new("bron", "Stalowy Miecz", 20);
+        Item StalowyMiecz = new()//new("bron", "Stalowy Miecz", 20)
+        {
+            Nazwa = "Stalowy Miecz",
+            Typ = "bron",
+            Hp = 20
+        };
 
-        Item ZbrojaKolczatka = new("zbroja", "Zbroja Kolczatka", 20);
+        Item ZbrojaKolczatka = new()
+        {
+            Nazwa = "Zbroja Kolczatka",
+            Typ = "zbroja",
+            Hp = 20
+        };
+        //new("zbroja", "Zbroja Kolczatka", 20);
 
         //Mag
 
@@ -801,7 +834,12 @@ public partial class Game
 
         //Mnich
 
-        Item MagicznaPeleryna = new("zbroja", "Magiczna Peleryna", 10);
+        Item MagicznaPeleryna = new()
+        {
+            Nazwa = "Magiczna Peleryna",
+            Typ = "zbroja",
+            Hp = 10
+        };//new("zbroja", "Magiczna Peleryna", 10);
 
         Attack KulaDobra = new()
         {

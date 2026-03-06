@@ -64,3 +64,235 @@
     },
     "exp": 1
 }
+
+
+============================================================================================================================================
+
+
+{
+    "historia": "Po pokonaniu wilka, w oddali widać chatę pełną złota i zaklętych skarbów. W powietrzu unosi się zapach przygody, a przed tobą otwiera się drzwiczki kamiennej budowli.",
+    "wybor": {
+        "pytanie": "Co chcesz zrobić?",
+        "opcje": [
+            "Poszukaj skarbow w przybyteku",
+            "Otwórz ekwipunek",
+            "Porozmawiaj z kupcem"
+        ]
+    },
+    "przedmioty": [
+        {
+            "typ": "bron",
+            "nazwa": "Czarny łuk",
+            "hp": 30
+        }
+    ],
+    "money": 150,
+    "sklep": {
+        "rozmowa": "Kupiec przygląda się tobie podejrzliwie: \"Dobra, co tu masz?\"",
+        "przedmioty": [
+            {
+                "cena": 20,
+                "przedmiot": {
+                    "typ": "przedmiot",
+                    "nazwa": "Zielona mikstua zdrowia",
+                    "hp": 40
+                },
+                "opis": "Zielony napar leczy 40 HP"
+            },
+            {
+                "cena": 75,
+                "przedmiot": {
+                    "typ": "zbroja",
+                    "nazwa": "Pancerz ze skóry smoka",
+                    "hp": 60
+                },
+                "opis": "Chroni przed uszkodzeniami, wytrzymuje silne uderzenia"
+            }
+        ]
+    },
+    "walka": [],
+    "zycie": 0
+}
+
+====================================================
+
+{
+    "historia": "Po pokonaniu wroga, stoisz przed tajemniczą jaskinią, w której pulses Light i Fire spells await to be used.",
+    "wybor": {
+        "pytanie": "Co chcesz zrobić?",
+        "opcje": [
+            "Wykorzystaj Kula Ognia",
+            "Użyj Leczniczej Kuli",
+            "Zapiszę zaklęcia i idę dalej"
+        ]
+    },
+    "przedmioty": [],
+    "money": 0,
+    "sklep": {
+        "rozmowa": "",
+        "przedmioty": []
+    },
+    "walka": [
+        {
+            "nazwa": "",
+            "hp": 0,
+            "opis": "",
+            "typ": "none",
+            "ataki": []
+        }
+    ],
+    "zycie": 50,
+    "statystyki": {},
+    "exp": 40,
+    "zaklecia": [
+        {
+            "nazwa": "Kula Ognia",
+            "typ": "Fire",
+            "min": 90,
+            "max": 135,
+            "attackType": "magic",
+            "mana": 2
+        },
+        {
+            "nazwa": "Lecznicza Kula",
+            "typ": "Light",
+            "min": 90,
+            "max": 135,
+            "attackType": "healing",
+            "mana": 4
+        }
+    ]
+}
+
+====================================================
+
+{
+    "historia": "Kula Ognia wybuchła z hukiem, rozpalając cienie przed tobą i zadając 120 obrażeń potworowi. Po intensywnym starciu wokół ciebie unosi się jeszcze dym, a echo twojego zaklęcia odbija się od ścian jaskini.",
+    "wybor": {
+        "pytanie": "Jaką akcję podejmiesz teraz?",
+        "opcje": [
+            "Zadaj kolejny cios ogniem",
+            "Wykorzystaj Leczniczą Kulę",
+            "Przebuduj się w ciszę"
+        ]
+    },
+    "przedmioty": [],
+    "money": 0,
+    "sklep": {
+        "rozmowa": "",
+        "przedmioty": []
+    },
+    "walka": [
+        {
+            "nazwa": "",
+            "hp": 0,
+            "opis": "",
+            "typ": "none",
+            "ataki": []
+        }
+    ],
+    "zycie": 0,
+    "statystyki": {},
+    "exp": 15,
+    "zaklecia": []
+}
+
+====================================================
+
+{
+    "historia": "",
+    "wybor": {
+        "pytanie": "",
+        "opcje": [
+            "",
+            "",
+            ""
+        ]
+    },
+    "przedmioty": [],
+    "money": 0,
+    "sklep": {
+        "rozmowa": "Cześć podróżniku! Sprzedam ci kilka użytecznych przedmiotów. Złota mikstua, która leczy 100 punktów życia, kosztuje 50 złotych. Ponadto mam pancerz ochrony przed ogniem, który zwiększy Twoją obronę o 75, za 200 złotych.",
+        "przedmioty": [
+            {
+                "cena": 50,
+                "opis": "Złota mikstua lecząca 100 HP",
+                "przedmiot": {
+                    "typ": "przedmiot",
+                    "nazwa": "Mikstua złota",
+                    "hp": 100
+                }
+            },
+            {
+                "cena": 200,
+                "opis": "Pancerz ochrony przed ogniem",
+                "przedmiot": {
+                    "typ": "zbroja",
+                    "nazwa": "Zbroja Ogniak",
+                    "hp": 75
+                }
+            }
+        ]
+    },
+    "walka": [],
+    "zycie": 10,
+    "statystyki": {},
+    "exp": 0,
+    "zaklecia": []
+}
+
+====================================================
+
+{
+    "historia": "",
+    "wybor": {
+        "pytanie": "",
+        "opcje": []
+    },
+    "przedmioty": [
+        {
+            "typ": "przedmiot",
+            "nazwa": "Zielony eliksir",
+            "hp": 20
+        }
+    ],
+    "money": 30,
+    "sklep": {
+        "rozmowa": "",
+        "przedmioty": []
+    },
+    "walka": [
+        {
+            "nazwa": "Cień Czarownika",
+            "hp": 95,
+            "opis": "Groźny czarodziej otoczony ciemnym płomieniem",
+            "typ": "dark",
+            "ataki": [
+                {
+                    "nazwa": "Uderzenie cieni",
+                    "typ": "physical",
+                    "min": 20,
+                    "max": 35,
+                    "attackType": "physical",
+                    "mana": 0
+                }
+            ]
+        }
+    ],
+    "zycie": 5,
+    "statystyki": {},
+    "exp": 30,
+    "zaklecia": [
+        {
+            "nazwa": "Kula Ciemności",
+            "typ": "Dark",
+            "min": 80,
+            "max": 120,
+            "attackType": "magic",
+            "mana": 5
+        }
+    ]
+}
+
+====================================================
+

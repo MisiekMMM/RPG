@@ -1,6 +1,5 @@
 using System;
 using System.Text.Json.Serialization;
-using Newtonsoft.Json;
 
 namespace RPG;
 
@@ -17,14 +16,17 @@ public class Attack
     public string Nazwa { get; set; } = "";
 
     [JsonPropertyName("typ")]
-    public Element AttackElement { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public Element AttackElement { get; set; } = Element.None;
 
     [JsonPropertyName("min")]
     public int MinStrength { get; set; }
     [JsonPropertyName("max")]
     public int MaxStrength { get; set; }
     [JsonPropertyName("attackType")]
-    public AttackType attackType;
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public AttackType attackType = AttackType.Physical;
 
     [JsonPropertyName("mana")]
     public int ManaCost { get; set; }

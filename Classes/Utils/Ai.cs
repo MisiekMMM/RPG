@@ -42,11 +42,15 @@ public static class AiManager
             Manager.nextButton!.Visible = false;
 
             _ = Utils.GeneratingLoadingAsync();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             string response = await chat.AppendUserInput(prompt).GetResponse();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
             isGenerating = false;
 
-            File.WriteAllText(@"response.txt", response);
+            File.AppendAllText(@"response.txt", response + "\n\n====================================================\n\n");
 
             return response!;
 

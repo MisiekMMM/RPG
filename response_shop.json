@@ -1,0 +1,69 @@
+{
+  "historia": "Po pokonaniu wilka odkrywasz w jego jamie starą skrzynię. Kiedy otwierasz ją, wewnątrz leży mapa oraz kieliszek ze szklanym trunkiem.",
+  "wybor": {
+    "pytanie": "Co robisz?",
+    "opcje": [
+      "Sprawdź zawartość skrzyni",
+      "Weź mapę i idź dalej"
+    ]
+  },
+  "przedmioty": [
+    {
+      "typ": "przedmiot",
+      "nazwa": "Mapa",
+      "hp": 0
+    }
+  ],
+  "money": 50,
+  "sklep": {
+    "rozmowa": "Rozmowa w sklepie",
+    "przedmioty": [
+      {
+        "cena": 100,
+        "opis": "Można się po niej wspinać",
+        "przedmiot": {
+          "typ": "przedmiot",
+          "nazwa": "Lina",
+          "hp": 0
+        }
+      },
+      {
+        "cena": 0,
+        "opis": "Dzięki niemu twoje stopnie echoczą.",
+        "przedmiot": {
+          "typ": "zbroja",
+          "nazwa": "Biżuterium",
+          "hp": 10
+        }
+      }
+    ]
+  },
+  "walka": [],
+  "zycie": 0,
+  "statystyki": {
+    "strength": 0,
+    "fighting": 2,
+    "shootingSkills": 0,
+    "agility": 0,
+    "speed": 0,
+    "condition": 3,
+    "inteligence": 0,
+    "wisdom": 0,
+    "charisma": 0,
+    "defence": 0,
+    "magic": 0,
+    "luck": 0,
+    "willPower": 0
+  },
+  "exp": 1,
+  "zaklecia": [
+    {
+      "nazwa": "Brak",
+      "typ": "None",
+      "min": 0,
+      "max": 0,
+      "attackType": "Physical",
+      "mana": 0
+    }
+  ]
+}

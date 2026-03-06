@@ -25,26 +25,10 @@
           "typ": "earth",
           "ataki":[
               {
-                  "nazwa": "Drapnięcie",
+                  "nazwa": "Gówno wilka",
                   "typ": "earth",
                   "min": 50,
                   "max": 80,
-                  "attackType": "Physical",
-                  "mana": 0
-              },
-              {
-                  "nazwa": "Szarża",
-                  "typ": "earth",
-                  "min": 30,
-                  "max": 60,
-                  "attackType": "Physical",
-                  "mana": 0
-              },
-              {
-                  "nazwa": "Wycie",
-                  "typ": "earth",
-                  "min": 20,
-                  "max": 40,
                   "attackType": "Physical",
                   "mana": 0
               }
@@ -70,5 +54,13 @@
   },
   "exp": 1,
   "zaklecia": [
+    {
+      "nazwa": "Brak",
+      "typ": "None",
+      "min": 0,
+      "max": 0,
+      "attackType": "Physical",
+      "mana": 0
+    }
   ]
 }

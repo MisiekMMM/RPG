@@ -216,6 +216,7 @@ public partial class Game : Window
         SpellPanel.Y = Pos.Bottom(lblStats);
         SpellPanel.BorderStyle = LineStyle.Double;
         SpellPanel.Title = "Spells";
+        SpellPanel.CanFocus = false;
 
 
         lblFlavor.Width = Dim.Fill();
